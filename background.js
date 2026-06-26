@@ -227,6 +227,7 @@ async function openBreakWindow(mode = 'popup') {
   const breakUrl = chrome.runtime.getURL('break.html');
   const popupWidth = 520;
   const popupHeight = 640;
+  const minSideWidth = 360;
 
   if (mode === 'fullWindow') {
     await chrome.windows.create({
@@ -242,7 +243,7 @@ async function openBreakWindow(mode = 'popup') {
     try {
       const lastFocused = await chrome.windows.getLastFocused();
       const referenceWidth = Number(lastFocused.width) || popupWidth;
-      const sideWidth = Math.max(360, Math.floor(referenceWidth * 0.45));
+      const sideWidth = Math.max(minSideWidth, Math.floor(referenceWidth * 0.45));
 
       await chrome.windows.create({
         url: breakUrl,
@@ -256,7 +257,8 @@ async function openBreakWindow(mode = 'popup') {
           : Math.max(0, (Number(lastFocused.left) || 0) + referenceWidth - sideWidth)
       });
       return;
-    } catch (_) {
+    } catch (err) {
+      console.warn('Unable to place side break window, falling back to popup mode.', err);
       // Fall through to default popup options.
     }
   }

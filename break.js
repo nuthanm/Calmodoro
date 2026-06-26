@@ -12,7 +12,7 @@ const SVG_HYDRATE = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.o
 
 // SVG_BLINK: original artwork created for Calmodoro – no third-party attribution required.
 const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-  <title>Boy and girl with blinking eyes</title>
+  <title>Eye-rest reminder illustration</title>
 
   <!-- ── Boy (left, centered ~16,34) ── -->
   <!-- face -->
@@ -156,6 +156,9 @@ const ANIM_SOURCES = [
  * @returns {string} A relative path to a Lottie JSON animation file.
  */
 function pickRandomAnim() {
+  if (!ANIM_SOURCES.length) {
+    return 'lottie/animations/stretch.json';
+  }
   return ANIM_SOURCES[Math.floor(Math.random() * ANIM_SOURCES.length)];
 }
 
