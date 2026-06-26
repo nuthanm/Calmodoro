@@ -1,0 +1,218 @@
+/* ======================================================
+   Calmodoro – Settings Page Styles
+   ====================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #1a1a2e;
+  --card:     #16213e;
+  --border:   rgba(255,255,255,.07);
+  --accent:   #e53935;
+  --text:     #f0f0f0;
+  --muted:    #9a9ab0;
+  --radius:   14px;
+  --green:    #43a047;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 16px 40px;
+}
+
+.page {
+  max-width: 540px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+.subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── Card ─────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+/* ── Duration field ───────────────────────────────────── */
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.field-icon { font-size: 16px; }
+.unit { font-size: 12px; color: var(--muted); margin-left: 2px; }
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.step-btn {
+  background: rgba(255,255,255,.06);
+  border: none;
+  color: var(--text);
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-btn:hover { background: rgba(255,255,255,.14); }
+.step-btn:active { background: rgba(255,255,255,.2); }
+
+.stepper input[type="number"] {
+  width: 52px;
+  height: 34px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255,255,255,.12);
+  border-right: 1px solid rgba(255,255,255,.12);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  -moz-appearance: textfield;
+  outline: none;
+}
+.stepper input[type="number"]::-webkit-inner-spin-button,
+.stepper input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* ── Toggle fields ────────────────────────────────────── */
+.toggle-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.toggle-name { font-size: 14px; font-weight: 500; }
+.toggle-desc { font-size: 12px; color: var(--muted); }
+
+/* Toggle switch */
+.switch { position: relative; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.switch-track {
+  display: block;
+  width: 44px;
+  height: 26px;
+  background: rgba(255,255,255,.15);
+  border-radius: 13px;
+  position: relative;
+  transition: background .3s;
+}
+.switch-track::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform .3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+.switch input:checked + .switch-track { background: var(--accent); }
+.switch input:checked + .switch-track::after { transform: translateX(18px); }
+
+/* ── Action buttons ───────────────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-save, .btn-reset {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  transition: filter .2s, transform .1s;
+}
+.btn-save:active, .btn-reset:active { transform: scale(.97); }
+
+.btn-save {
+  flex: 1;
+  background: var(--accent);
+  color: #fff;
+}
+.btn-save:hover { filter: brightness(1.1); }
+
+.btn-reset {
+  background: rgba(255,255,255,.08);
+  color: var(--muted);
+}
+.btn-reset:hover { background: rgba(255,255,255,.14); color: var(--text); }
+
+/* ── Toast ────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 1;
+  transition: opacity .5s;
+  pointer-events: none;
+}
+.toast.hidden { opacity: 0; }
