@@ -149,6 +149,7 @@ const ANIM_SOURCES = [
   'lottie/animations/stretch.json',
   'lottie/animations/water.json'
 ];
+const DEFAULT_ANIM_SOURCE = 'lottie/animations/stretch.json';
 
 /**
  * Returns a randomly selected animation path from ANIM_SOURCES.
@@ -157,7 +158,7 @@ const ANIM_SOURCES = [
  */
 function pickRandomAnim() {
   if (!ANIM_SOURCES.length) {
-    return 'lottie/animations/stretch.json';
+    return DEFAULT_ANIM_SOURCE;
   }
   return ANIM_SOURCES[Math.floor(Math.random() * ANIM_SOURCES.length)];
 }
