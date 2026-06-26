@@ -274,6 +274,10 @@ function applyModeUI(mode, settings) {
 
   // Break-specific icon
   document.getElementById('anim-icon').textContent = isLong ? '🛋️' : '🧘';
+  const modeGlyph = document.getElementById('mode-glyph');
+  modeGlyph.classList.toggle('long', isLong);
+  modeGlyph.classList.toggle('short', !isLong);
+  modeGlyph.textContent = isLong ? '💧' : '🌿';
 
   // Wellness cards
   const cards   = BREAK_CARDS[mode] || BREAK_CARDS.shortBreak;

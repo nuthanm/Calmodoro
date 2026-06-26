@@ -104,6 +104,33 @@ body {
 }
 .lottie-wrap.loaded { display: block; }
 
+.mode-glyph {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(13, 27, 42, 0.86);
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  display: grid;
+  place-items: center;
+  z-index: 3;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.mode-glyph.short {
+  border-color: rgba(67,160,71,.85);
+  box-shadow: 0 8px 24px rgba(67,160,71,.22);
+}
+
+.mode-glyph.long {
+  border-color: rgba(30,136,229,.85);
+  box-shadow: 0 8px 24px rgba(30,136,229,.24);
+}
+
 /* CSS breathing rings (fallback / always-visible if no Lottie) */
 .css-anim {
   position: absolute;
