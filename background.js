@@ -134,8 +134,7 @@ async function startBreakTimer() {
 async function skipBreak() {
   await chrome.alarms.clearAll();
   await chrome.storage.local.set({ state: 'idle', mode: 'work', endTime: null, remainingMs: null });
-  chrome.action.setBadgeText({ text: '' });
-  return getTimerState();
+  return startTimer();
 }
 
 async function onSettingsUpdated() {
@@ -293,9 +292,7 @@ async function updateBadge() {
   if (!endTime) return;
 
   const remaining = Math.max(0, endTime - Date.now());
-  const minutes = Math.floor(remaining / 60000);
-  const seconds = Math.floor((remaining % 60000) / 1000);
-  const text = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const text = formatBadgeCountdown(remaining);
 
   const color = state === 'break' ? '#43a047' : '#e53935';
   chrome.action.setBadgeText({ text });
@@ -344,4 +341,14 @@ function modeDuration(mode, settings) {
     case 'longBreak':  return settings.longBreakDuration  * 60 * 1000;
     default:           return settings.workDuration        * 60 * 1000;
   }
+}
+
+function formatBadgeCountdown(remainingMs) {
+  const minutes = Math.floor(remainingMs / 60000);
+  const seconds = Math.floor((remainingMs % 60000) / 1000);
+
+  if (minutes >= 10) {
+    return `${minutes}m`;
+  }
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }

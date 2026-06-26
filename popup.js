@@ -151,9 +151,7 @@ function syncBadge(state) {
   const { state: timerState, remainingMs, mode } = state;
 
   if (timerState === 'running' || timerState === 'break') {
-    const mm  = String(Math.floor(remainingMs / 60000)).padStart(2, '0');
-    const ss  = String(Math.floor((remainingMs % 60000) / 1000)).padStart(2, '0');
-    chrome.action.setBadgeText({ text: `${mm}:${ss}` });
+    chrome.action.setBadgeText({ text: formatBadgeCountdown(remainingMs) });
     chrome.action.setBadgeBackgroundColor({ color: MODE_COLORS[mode] || '#e53935' });
   } else if (timerState === 'paused') {
     chrome.action.setBadgeText({ text: '⏸' });
@@ -212,4 +210,10 @@ function modeTotalMs(mode, settings) {
     case 'longBreak':  return (settings.longBreakDuration  || 15) * 60000;
     default:           return (settings.workDuration       || 25) * 60000;
   }
+}
+
+function formatBadgeCountdown(remainingMs) {
+  const minutes = Math.floor(remainingMs / 60000);
+  const seconds = Math.floor((remainingMs % 60000) / 1000);
+  return minutes >= 10 ? `${minutes}m` : `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
