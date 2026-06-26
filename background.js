@@ -238,7 +238,7 @@ async function updateBadge() {
   const remaining = Math.max(0, endTime - Date.now());
   const minutes = Math.floor(remaining / 60000);
   const seconds = Math.floor((remaining % 60000) / 1000);
-  const text = minutes > 0 ? `${minutes}m` : `${seconds}s`;
+  const text = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   const color = state === 'break' ? '#43a047' : '#e53935';
   chrome.action.setBadgeText({ text });
@@ -252,8 +252,8 @@ async function scheduleNextBadgeTick() {
   const remaining = endTime - Date.now();
   if (remaining <= 0) return;
 
-  // Schedule tick at the next whole-minute boundary (min 1 min per Chrome rules)
-  chrome.alarms.create(ALARM_BADGE_TICK, { delayInMinutes: 1 });
+  // Chrome 120+ supports a minimum alarm delay of 30 seconds (0.5 minutes)
+  chrome.alarms.create(ALARM_BADGE_TICK, { delayInMinutes: 0.5 });
 }
 
 // ---------------------------------------------------------------------------
