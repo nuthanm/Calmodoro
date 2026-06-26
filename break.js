@@ -10,17 +10,54 @@ const SVG_HYDRATE = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.o
   <ellipse cx="27" cy="38" rx="3" ry="5" fill="white" opacity=".35" transform="rotate(-20 27 38)"/>
 </svg>`;
 
-const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <ellipse cx="32" cy="32" rx="22" ry="13" fill="#e3f2fd" opacity=".2"/>
-  <path d="M10 32 Q20 16 32 16 Q44 16 54 32 Q44 48 32 48 Q20 48 10 32Z" fill="#e3f2fd" opacity=".15"/>
-  <path d="M10 32 Q20 18 32 18 Q44 18 54 32 Q44 46 32 46 Q20 46 10 32Z" stroke="#64b5f6" stroke-width="2" fill="none"/>
-  <circle cx="32" cy="32" r="10" fill="#1565c0" opacity=".75"/>
-  <circle cx="32" cy="32" r="6"  fill="#1a237e"/>
-  <circle cx="35" cy="29" r="2"  fill="white" opacity=".8"/>
-  <!-- lashes -->
-  <line x1="20" y1="22" x2="22" y2="25" stroke="#64b5f6" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="32" y1="18" x2="32" y2="22" stroke="#64b5f6" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="44" y1="22" x2="42" y2="25" stroke="#64b5f6" stroke-width="1.5" stroke-linecap="round"/>
+// SVG_BLINK: original artwork created for Calmodoro – no third-party attribution required.
+const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boy and girl with blinking eyes">
+  <title>Boy and girl with blinking eyes</title>
+
+  <!-- ── Boy (left, centered ~16,34) ── -->
+  <!-- face -->
+  <circle cx="16" cy="34" r="13" fill="#FFD5A8"/>
+  <!-- hair cap with spiky top -->
+  <path d="M4 28 Q5 14 16 13 Q27 14 28 28 Q24 18 20 20 Q19 14 16 13 Q13 14 12 20 Q8 18 4 28Z" fill="#6B3A2A"/>
+  <!-- spikes -->
+  <path d="M9 20 Q7 13 11 16Z" fill="#6B3A2A"/>
+  <path d="M16 13 Q15 8 17 11Z" fill="#6B3A2A"/>
+  <path d="M23 20 Q25 13 21 16Z" fill="#6B3A2A"/>
+  <!-- blinking eyes (downward arcs = closed happy) -->
+  <path d="M9 31 Q12.5 27 16 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16 31 Q19.5 27 23 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- rosy cheeks -->
+  <ellipse cx="7"  cy="38" rx="3.5" ry="2" fill="#FF9999" opacity=".55"/>
+  <ellipse cx="25" cy="38" rx="3.5" ry="2" fill="#FF9999" opacity=".55"/>
+  <!-- smile -->
+  <path d="M11 41 Q16 46 21 41" stroke="#C07060" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+  <!-- ── Girl (right, centered ~48,34) ── -->
+  <!-- face -->
+  <circle cx="48" cy="34" r="13" fill="#FFD5A8"/>
+  <!-- hair cap -->
+  <path d="M36 28 Q37 14 48 13 Q59 14 60 28 Q56 18 52 20 Q51 14 48 13 Q45 14 44 20 Q40 18 36 28Z" fill="#A0522D"/>
+  <!-- pigtails -->
+  <circle cx="36" cy="37" r="5" fill="#A0522D"/>
+  <circle cx="60" cy="37" r="5" fill="#A0522D"/>
+  <!-- hair bow -->
+  <path d="M44 13 Q46 9 48 12 Q46 15 44 13Z" fill="#E91E63"/>
+  <path d="M52 13 Q50 9 48 12 Q50 15 52 13Z" fill="#E91E63"/>
+  <circle cx="48" cy="12" r="2" fill="#AD1457"/>
+  <!-- eyelashes -->
+  <line x1="41" y1="28" x2="40" y2="25" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="44" y1="27" x2="44" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="47" y1="27" x2="47" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="51" y1="27" x2="51" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="54" y1="27" x2="54" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- blinking eyes -->
+  <path d="M41 31 Q44.5 27 48 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q51.5 27 55 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- rosy cheeks -->
+  <ellipse cx="39" cy="38" rx="3.5" ry="2" fill="#FF9999" opacity=".55"/>
+  <ellipse cx="57" cy="38" rx="3.5" ry="2" fill="#FF9999" opacity=".55"/>
+  <!-- smile -->
+  <path d="M43 41 Q48 46 53 41" stroke="#C07060" stroke-width="1.8" fill="none" stroke-linecap="round"/>
 </svg>`;
 
 const SVG_STRETCH = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
