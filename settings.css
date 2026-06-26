@@ -141,6 +141,21 @@ body {
 .toggle-name { font-size: 14px; font-weight: 500; }
 .toggle-desc { font-size: 12px; color: var(--muted); }
 
+.window-mode-select {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  min-width: 170px;
+  outline: none;
+}
+
+.window-mode-select:focus {
+  border-color: var(--accent);
+}
+
 /* Toggle switch */
 .switch { position: relative; cursor: pointer; }
 .switch input { position: absolute; opacity: 0; width: 0; height: 0; }

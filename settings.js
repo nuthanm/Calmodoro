@@ -7,7 +7,8 @@ const DEFAULTS = {
   sessionsBeforeLongBreak: 4,
   autoStartBreak: false,
   autoStartWork: false,
-  doNotDisturb: false
+  doNotDisturb: false,
+  breakWindowMode: 'popup'
 };
 
 // ---------------------------------------------------------------------------
@@ -52,6 +53,7 @@ function applyToForm(s) {
   document.getElementById('dnd-pref').checked     = s.doNotDisturb;
   document.getElementById('auto-break').checked   = s.autoStartBreak;
   document.getElementById('auto-work').checked    = s.autoStartWork;
+  document.getElementById('break-window-mode').value = s.breakWindowMode || 'popup';
 }
 
 async function saveSettings() {
@@ -85,7 +87,8 @@ function readForm() {
     sessionsBeforeLongBreak: clamp(parseInt(document.getElementById('sessions-count').value, 10), 1,  10),
     doNotDisturb:    document.getElementById('dnd-pref').checked,
     autoStartBreak:  document.getElementById('auto-break').checked,
-    autoStartWork:   document.getElementById('auto-work').checked
+    autoStartWork:   document.getElementById('auto-work').checked,
+    breakWindowMode: document.getElementById('break-window-mode').value
   };
 }
 
