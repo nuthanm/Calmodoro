@@ -293,7 +293,7 @@ async function updateBadge() {
   if (!endTime) return;
 
   const remaining = Math.max(0, endTime - Date.now());
-  const text = formatBadgeCountdown(remaining);
+  const text = CalmodoroTimerUtils.formatBadgeCountdown(remaining);
 
   const color = state === 'break' ? '#43a047' : '#e53935';
   chrome.action.setBadgeText({ text });

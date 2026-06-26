@@ -8,3 +8,7 @@ function formatBadgeCountdown(remainingMs) {
   }
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
+
+globalThis.CalmodoroTimerUtils = Object.freeze({
+  formatBadgeCountdown
+});

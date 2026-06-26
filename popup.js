@@ -151,7 +151,7 @@ function syncBadge(state) {
   const { state: timerState, remainingMs, mode } = state;
 
   if (timerState === 'running' || timerState === 'break') {
-    chrome.action.setBadgeText({ text: formatBadgeCountdown(remainingMs) });
+    chrome.action.setBadgeText({ text: CalmodoroTimerUtils.formatBadgeCountdown(remainingMs) });
     chrome.action.setBadgeBackgroundColor({ color: MODE_COLORS[mode] || '#e53935' });
   } else if (timerState === 'paused') {
     chrome.action.setBadgeText({ text: '⏸' });
