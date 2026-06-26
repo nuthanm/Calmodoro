@@ -143,11 +143,23 @@ const BREAK_CARDS = {
   ]
 };
 
-// Lottie animation source paths (relative to extension root)
+// Lottie animation source paths (relative to extension root).
+// Each mode lists multiple animations; one is picked at random each visit.
 const ANIM_SOURCES = {
-  shortBreak: 'lottie/animations/stretch.json',
-  longBreak:  'lottie/animations/water.json'
+  shortBreak: [
+    'lottie/animations/stretch.json',
+    'lottie/animations/water.json'
+  ],
+  longBreak: [
+    'lottie/animations/water.json',
+    'lottie/animations/stretch.json'
+  ]
 };
+
+function pickRandomAnim(mode) {
+  const list = ANIM_SOURCES[mode] || ANIM_SOURCES.shortBreak;
+  return list[Math.floor(Math.random() * list.length)];
+}
 
 let breakMode      = 'shortBreak';
 let breakDurationMs = 5 * 60 * 1000;
@@ -286,7 +298,7 @@ async function loadLottieAnimation(mode) {
   // lottie-web must be included as lottie/lottie.min.js
   if (typeof lottie === 'undefined') return;
 
-  const animPath = chrome.runtime.getURL(ANIM_SOURCES[mode] || ANIM_SOURCES.shortBreak);
+  const animPath = chrome.runtime.getURL(pickRandomAnim(mode));
 
   try {
     lottieAnim = lottie.loadAnimation({
