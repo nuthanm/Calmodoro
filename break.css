@@ -1,0 +1,251 @@
+/* ======================================================
+   Calmodoro – Break Page Styles
+   ====================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d1b2a;
+  --card:      rgba(255,255,255,.04);
+  --green:     #43a047;
+  --blue:      #1e88e5;
+  --text:      #f0f0f0;
+  --muted:     #9ab;
+  --radius:    16px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ── Animated background blobs ────────────────────────── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  opacity: .18;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite alternate;
+}
+.blob-1 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, #43a047, #1e88e5);
+  top: -100px; left: -100px;
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, #1e88e5, #7c4dff);
+  bottom: -80px; right: -80px;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, 20px) scale(1.08); }
+}
+
+/* ── Page layout ──────────────────────────────────────── */
+.break-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 28px 28px;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  overflow: auto;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.break-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo { font-size: 15px; font-weight: 700; opacity: .7; }
+
+.break-badge {
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+.break-badge.long { background: var(--blue); }
+
+/* ── Animation area ───────────────────────────────────── */
+.animation-area {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lottie-wrap {
+  position: absolute;
+  inset: 0;
+  display: none; /* shown when Lottie loads successfully */
+}
+.lottie-wrap.loaded { display: block; }
+
+/* CSS breathing rings (fallback / always-visible if no Lottie) */
+.css-anim {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid var(--green);
+  opacity: 0;
+  animation: breathe 4s ease-in-out infinite;
+}
+.r1 { width: 200px; height: 200px; animation-delay:  0s; }
+.r2 { width: 150px; height: 150px; animation-delay: .6s; }
+.r3 { width:  90px; height:  90px; animation-delay: 1.2s; border-color: #fff; opacity: .3; }
+
+@keyframes breathe {
+  0%, 100% { transform: scale(.85); opacity: 0; }
+  50%       { transform: scale(1);  opacity: .7; }
+}
+
+.center-icon {
+  font-size: 52px;
+  animation: pulse-icon 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(.92); }
+  50%       { transform: scale(1.06); }
+}
+
+/* ── Break body ───────────────────────────────────────── */
+.break-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.break-heading {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.break-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tips {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.tips li {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+.break-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+}
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.countdown-time {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  color: var(--green);
+  transition: color .3s;
+}
+
+.countdown-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.break-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-start-break {
+  flex: 1;
+  padding: 13px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter .2s, transform .1s;
+}
+.btn-start-break:hover   { filter: brightness(1.1); }
+.btn-start-break:active  { transform: scale(.97); }
+.btn-start-break:disabled { opacity: .5; cursor: default; }
+
+.btn-skip {
+  padding: 13px 18px;
+  background: rgba(255,255,255,.07);
+  color: var(--muted);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.btn-skip:hover { background: rgba(255,255,255,.14); color: var(--text); }
+
+/* ── Long break variant ───────────────────────────────── */
+body.long-break .ring   { border-color: var(--blue); }
+body.long-break .countdown-time { color: var(--blue); }
+body.long-break .btn-start-break { background: var(--blue); }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Break Time – Calmodoro</title>
+  <link rel="stylesheet" href="break.css">
+</head>
+<body>
+
+  <!-- Animated background blobs -->
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="blob blob-2" aria-hidden="true"></div>
+
+  <div class="break-page">
+
+    <!-- Header -->
+    <header class="break-header">
+      <span class="logo">🍅 Calmodoro</span>
+      <span class="break-badge" id="break-badge">Short Break</span>
+    </header>
+
+    <!-- Lottie / CSS animation area -->
+    <div class="animation-area">
+      <!-- Lottie player (populated by break.js) -->
+      <div id="lottie-container" class="lottie-wrap" aria-hidden="true"></div>
+
+      <!-- CSS fallback animation shown until/if Lottie loads -->
+      <div class="css-anim" id="css-anim" aria-hidden="true">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="center-icon" id="anim-icon">🧘</div>
+      </div>
+    </div>
+
+    <!-- Break headline & tips -->
+    <div class="break-body">
+      <h1 class="break-heading" id="break-heading">Time to recharge!</h1>
+      <p  class="break-sub"     id="break-sub">Step away, breathe, and return refreshed.</p>
+
+      <ul class="tips" id="break-tips">
+        <li>🧘 Stand up and stretch your arms overhead</li>
+        <li>👁️ Look 20 ft away for 20 seconds to rest your eyes</li>
+        <li>💧 Drink a glass of water</li>
+      </ul>
+    </div>
+
+    <!-- Countdown + actions -->
+    <div class="break-footer">
+      <div class="countdown" id="countdown">
+        <span class="countdown-time" id="countdown-time">05:00</span>
+        <span class="countdown-label">remaining</span>
+      </div>
+
+      <div class="break-actions">
+        <button class="btn-start-break" id="start-break-btn">Start Break</button>
+        <button class="btn-skip"        id="skip-btn">Skip →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Lottie web library (bundled locally) -->
+  <script src="lottie/lottie.min.js"></script>
+  <script src="break.js"></script>
+</body>
+</html>
