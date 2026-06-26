@@ -11,7 +11,7 @@ const SVG_HYDRATE = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.o
 </svg>`;
 
 // SVG_BLINK: original artwork created for Calmodoro – no third-party attribution required.
-const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boy and girl with blinking eyes">
+const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>Boy and girl with blinking eyes</title>
 
   <!-- ── Boy (left, centered ~16,34) ── -->
@@ -44,12 +44,14 @@ const SVG_BLINK = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org
   <path d="M44 13 Q46 9 48 12 Q46 15 44 13Z" fill="#E91E63"/>
   <path d="M52 13 Q50 9 48 12 Q50 15 52 13Z" fill="#E91E63"/>
   <circle cx="48" cy="12" r="2" fill="#AD1457"/>
-  <!-- eyelashes -->
-  <line x1="41" y1="28" x2="40" y2="25" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="44" y1="27" x2="44" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="47" y1="27" x2="47" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="51" y1="27" x2="51" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="54" y1="27" x2="54" y2="24" stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- eyelashes (grouped for shared style) -->
+  <g stroke="#3D2B1F" stroke-width="1.2" stroke-linecap="round">
+    <line x1="41" y1="28" x2="40" y2="25"/>
+    <line x1="44" y1="27" x2="44" y2="24"/>
+    <line x1="47" y1="27" x2="47" y2="24"/>
+    <line x1="51" y1="27" x2="51" y2="24"/>
+    <line x1="54" y1="27" x2="54" y2="24"/>
+  </g>
   <!-- blinking eyes -->
   <path d="M41 31 Q44.5 27 48 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
   <path d="M48 31 Q51.5 27 55 31" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>
