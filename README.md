@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/badge/build-pending-lightgrey)](#)
+[![Build Status](https://img.shields.io/badge/build-pending-lightgrey)](https://github.com/nuthanm/Calmodoro/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 # Calmodoro
