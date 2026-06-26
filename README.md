@@ -6,12 +6,25 @@
 
 Calmodoro is a Chrome extension that combines a focused Pomodoro timer with calming Lottie animations and visual break reminders. It is designed to help users stay productive while building healthier work and rest habits throughout the day.
 
+## Snapshot (How popup leads to break animation)
+
+```mermaid
+flowchart LR
+  A[Popup: Start Focus] --> B[Background Timer Runs]
+  B --> C{Focus Session Ends}
+  C -->|DND Off| D[Notification]
+  D --> E[Break Window Opens]
+  E --> F[Lottie / Image Animation + Tips + Countdown]
+  C -->|DND On| G[No Popup/Notification]
+```
+
 ## Features
 
 - 🍅 **Pomodoro timer** with Start, Pause, Resume, and Reset controls
 - ⏱️ **Countdown badge** — live timer shown on the extension icon even when the popup is closed
 - ⚙️ **Adjustable intervals** — customise focus, short break, and long break durations
 - 🎬 **Lottie break animations** — stretching and water-reminder animations loop during each break
+- 🪟 **Break window placement options** — popup, full window, side-left, or side-right
 - 🔕 **Do Not Disturb mode** — suppresses all break pop-ups and notifications
 - 🔁 **Auto-start** — optionally auto-start breaks or the next focus session
 - 📦 **Manifest V3** — built on the latest Chrome extension platform
@@ -90,6 +103,7 @@ When a focus session finishes, Calmodoro:
 Click the ⚙ gear icon in the popup header to open the Settings page where you can:
 - Change focus and break durations (1-minute granularity)
 - Set how many focus sessions before a long break (default: 4)
+- Choose break window placement (popup / full / side-left / side-right)
 - Enable or disable Do Not Disturb mode
 - Toggle auto-start for breaks and focus sessions
 
@@ -104,9 +118,15 @@ Toggle **Do Not Disturb** directly in the popup or in Settings. When enabled:
 
 The break page uses [lottie-web](https://github.com/airbnb/lottie-web) (bundled at `lottie/lottie.min.js`) to play the animations in `lottie/animations/`. To swap in your own animations:
 
-1. Download a free animation from [LottieFiles](https://lottiefiles.com/) as a `.json` file.
+1. Download a **free-to-use** animation from [LottieFiles](https://lottiefiles.com/) as a `.json` file.
 2. Replace `lottie/animations/stretch.json` (short break) or `lottie/animations/water.json` (long break).
 3. Reload the extension in `chrome://extensions`.
+
+### Attribution and licensing guidance (organization-safe)
+
+- Keep using free animations and verify each asset's license before adding it.
+- Add attribution details for each third-party animation in [`ATTRIBUTIONS.md`](./ATTRIBUTIONS.md).
+- Prefer assets that are free for commercial/organizational use to avoid deployment interruptions.
 
 If the JSON fails to load, the break page automatically falls back to the CSS breathing-ring animation.
 

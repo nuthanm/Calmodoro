@@ -3,7 +3,7 @@
   "name": "Calmodoro",
   "version": "1.0.0",
   "description": "Pomodoro timer with calming animations and break reminders",
-  "permissions": ["storage", "alarms", "notifications"],
+  "permissions": ["storage", "alarms", "notifications", "windows"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

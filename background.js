@@ -8,7 +8,8 @@ const DEFAULT_SETTINGS = {
   sessionsBeforeLongBreak: 4,
   autoStartBreak: false,
   autoStartWork: false,
-  doNotDisturb: false
+  doNotDisturb: false,
+  breakWindowMode: 'popup'
 };
 
 const ALARM_SESSION_END = 'sessionEnd';
@@ -191,13 +192,7 @@ async function handleSessionEnd() {
 
     if (isWorkEnd) {
       // Open break animation window
-      chrome.windows.create({
-        url: chrome.runtime.getURL('break.html'),
-        type: 'popup',
-        width: 520,
-        height: 640,
-        focused: true
-      });
+      await openBreakWindow(settings.breakWindowMode);
     }
   }
 
@@ -220,6 +215,68 @@ function showNotification(isWorkEnd, nextMode) {
       ? `Time for a ${breakLabel}. Great work!`
       : 'Ready for the next focus session?',
     silent: false
+  });
+}
+
+/**
+ * Opens the break page using the user's preferred window placement mode.
+ * Falls back to a centered popup-sized window if positioning information is unavailable.
+ * @param {'popup' | 'fullWindow' | 'sideLeft' | 'sideRight'} mode
+ */
+async function openBreakWindow(mode = 'popup') {
+  const breakUrl = chrome.runtime.getURL('break.html');
+  const popupWidth = 520;
+  const popupHeight = 640;
+  const minSideWidth = 360;
+  const sideWidthRatio = 0.45;
+
+  if (mode === 'fullWindow') {
+    await chrome.windows.create({
+      url: breakUrl,
+      type: 'popup',
+      state: 'maximized',
+      focused: true
+    });
+    return;
+  }
+
+  if (mode === 'sideLeft' || mode === 'sideRight') {
+    try {
+      const lastFocused = await chrome.windows.getLastFocused();
+      const referenceWidth = Number.isFinite(lastFocused.width) && lastFocused.width > 0
+        ? lastFocused.width
+        : popupWidth;
+      const sideWidth = Math.max(minSideWidth, Math.floor(referenceWidth * sideWidthRatio));
+      const referenceHeight = Number.isFinite(lastFocused.height) && lastFocused.height > 0
+        ? lastFocused.height
+        : popupHeight;
+      const referenceTop = Number.isFinite(lastFocused.top) ? lastFocused.top : 0;
+      const referenceLeft = Number.isFinite(lastFocused.left) ? lastFocused.left : 0;
+
+      await chrome.windows.create({
+        url: breakUrl,
+        type: 'popup',
+        focused: true,
+        width: sideWidth,
+        height: referenceHeight,
+        top: referenceTop,
+        left: mode === 'sideLeft'
+          ? referenceLeft
+          : Math.max(0, referenceLeft + referenceWidth - sideWidth)
+      });
+      return;
+    } catch (err) {
+      console.warn(`Unable to place side break window (${mode}), falling back to popup mode.`, err);
+      // Fall through to default popup options.
+    }
+  }
+
+  await chrome.windows.create({
+    url: breakUrl,
+    type: 'popup',
+    width: popupWidth,
+    height: popupHeight,
+    focused: true
   });
 }
 

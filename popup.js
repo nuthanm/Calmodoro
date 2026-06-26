@@ -202,7 +202,7 @@ function defaultSettings() {
   return {
     workDuration: 25, shortBreakDuration: 5, longBreakDuration: 15,
     sessionsBeforeLongBreak: 4, autoStartBreak: false, autoStartWork: false,
-    doNotDisturb: false
+    doNotDisturb: false, breakWindowMode: 'popup'
   };
 }
 
