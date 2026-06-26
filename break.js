@@ -151,25 +151,6 @@ const ANIM_SOURCES = [
 ];
 const DEFAULT_ANIM_SOURCE = 'lottie/animations/stretch.json';
 
-const MODE_GLYPHS = {
-  shortBreak: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="32" cy="32" r="28" fill="#43a047" opacity=".22"/>
-    <path d="M17 35 C22 30, 28 27, 32 27 C36 27, 42 30, 47 35" stroke="#9be7a3" stroke-width="4" stroke-linecap="round"/>
-    <path d="M22 20 L27 24 L22 28" stroke="#9be7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M42 20 L37 24 L42 28" stroke="#9be7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="25" cy="39" r="2.5" fill="#d9ffd8"/>
-    <circle cx="39" cy="39" r="2.5" fill="#d9ffd8"/>
-  </svg>`,
-  longBreak: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="32" cy="32" r="28" fill="#1e88e5" opacity=".24"/>
-    <rect x="19" y="26" width="26" height="18" rx="9" fill="#b6dcff"/>
-    <path d="M32 17 C35 21, 41 26, 41 31 A9 9 0 1 1 23 31 C23 26, 29 21, 32 17Z" fill="#64b5f6"/>
-    <path d="M27 33 H37" stroke="#0d47a1" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="24" cy="31" r="1.6" fill="#0d47a1"/>
-    <circle cx="40" cy="31" r="1.6" fill="#0d47a1"/>
-  </svg>`
-};
-
 /**
  * Returns a randomly selected animation path from ANIM_SOURCES.
  * Called once per break page load so each break may show a different animation.
@@ -293,7 +274,10 @@ function applyModeUI(mode, settings) {
 
   // Break-specific icon
   document.getElementById('anim-icon').textContent = isLong ? '🛋️' : '🧘';
-  document.getElementById('mode-glyph').innerHTML = isLong ? MODE_GLYPHS.longBreak : MODE_GLYPHS.shortBreak;
+  const modeGlyph = document.getElementById('mode-glyph');
+  modeGlyph.classList.toggle('long', isLong);
+  modeGlyph.classList.toggle('short', !isLong);
+  modeGlyph.textContent = isLong ? '💧' : '🌿';
 
   // Wellness cards
   const cards   = BREAK_CARDS[mode] || BREAK_CARDS.shortBreak;

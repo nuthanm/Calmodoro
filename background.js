@@ -1,5 +1,6 @@
 // Calmodoro – Background Service Worker
 // Manages timer state, badge updates, alarms, and session lifecycle.
+importScripts('timerUtils.js');
 
 const DEFAULT_SETTINGS = {
   workDuration: 25,
@@ -14,7 +15,6 @@ const DEFAULT_SETTINGS = {
 
 const ALARM_SESSION_END = 'sessionEnd';
 const ALARM_BADGE_TICK = 'badgeTick';
-const BADGE_COMPACT_THRESHOLD_MINUTES = 10;
 
 // ---------------------------------------------------------------------------
 // Alarm handlers
@@ -342,14 +342,4 @@ function modeDuration(mode, settings) {
     case 'longBreak':  return settings.longBreakDuration  * 60 * 1000;
     default:           return settings.workDuration        * 60 * 1000;
   }
-}
-
-function formatBadgeCountdown(remainingMs) {
-  const minutes = Math.floor(remainingMs / 60000);
-  const seconds = Math.floor((remainingMs % 60000) / 1000);
-
-  if (minutes >= BADGE_COMPACT_THRESHOLD_MINUTES) {
-    return `${minutes}m`;
-  }
-  return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }

@@ -14,7 +14,6 @@ const MODE_LABELS = {
   shortBreak: 'Short Break',
   longBreak:  'Long Break'
 };
-const BADGE_COMPACT_THRESHOLD_MINUTES = 10;
 
 let pollInterval = null;
 let lastState    = null;
@@ -211,12 +210,4 @@ function modeTotalMs(mode, settings) {
     case 'longBreak':  return (settings.longBreakDuration  || 15) * 60000;
     default:           return (settings.workDuration       || 25) * 60000;
   }
-}
-
-function formatBadgeCountdown(remainingMs) {
-  const minutes = Math.floor(remainingMs / 60000);
-  const seconds = Math.floor((remainingMs % 60000) / 1000);
-  return minutes >= BADGE_COMPACT_THRESHOLD_MINUTES
-    ? `${minutes}m`
-    : `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
