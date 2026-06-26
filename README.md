@@ -17,7 +17,7 @@ Calmodoro is a Chrome extension that combines a focused Pomodoro timer with calm
 
 ### Install the extension
 
-If you have a packaged release of Calmodoro:
+If you have a local Calmodoro build or release folder:
 
 1. Download the latest build files.
 2. Open Chrome and go to `chrome://extensions`.
