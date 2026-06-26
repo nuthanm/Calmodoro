@@ -243,19 +243,26 @@ async function openBreakWindow(mode = 'popup') {
   if (mode === 'sideLeft' || mode === 'sideRight') {
     try {
       const lastFocused = await chrome.windows.getLastFocused();
-      const referenceWidth = Number(lastFocused.width) || popupWidth;
+      const referenceWidth = Number.isFinite(lastFocused.width) && lastFocused.width > 0
+        ? lastFocused.width
+        : popupWidth;
       const sideWidth = Math.max(minSideWidth, Math.floor(referenceWidth * sideWidthRatio));
+      const referenceHeight = Number.isFinite(lastFocused.height) && lastFocused.height > 0
+        ? lastFocused.height
+        : popupHeight;
+      const referenceTop = Number.isFinite(lastFocused.top) ? lastFocused.top : 0;
+      const referenceLeft = Number.isFinite(lastFocused.left) ? lastFocused.left : 0;
 
       await chrome.windows.create({
         url: breakUrl,
         type: 'popup',
         focused: true,
         width: sideWidth,
-        height: Number(lastFocused.height) || popupHeight,
-        top: Number(lastFocused.top) || 0,
+        height: referenceHeight,
+        top: referenceTop,
         left: mode === 'sideLeft'
-          ? Number(lastFocused.left) || 0
-          : Math.max(0, (Number(lastFocused.left) || 0) + referenceWidth - sideWidth)
+          ? referenceLeft
+          : Math.max(0, referenceLeft + referenceWidth - sideWidth)
       });
       return;
     } catch (err) {
