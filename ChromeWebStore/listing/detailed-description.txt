@@ -1,0 +1,47 @@
+Calmodoro is a calm Pomodoro timer for Chrome that helps you stay focused while building healthier desk habits throughout your workday.
+
+FOCUS WITH A LIVE ICON TIMER
+Start a focus session and close the popup — Calmodoro keeps running in the background. The remaining time appears on the extension icon badge and updates every second, so you always know where you stand without opening the popup.
+
+STRUCTURED POMODORO CYCLES
+• Focus, short break, and long break modes
+• Adjustable durations and sessions-before-long-break
+• Morning vs afternoon focus lengths (time-of-day slots)
+• Pause, resume, and reset controls
+
+WELLNESS BREAK TRIPTYCH
+When a focus session ends, Calmodoro opens a calming break ritual with three panels:
+• Hydrate — drink water
+• Rest eyes — 20-20-20 rule
+• Move — stretch or short walk
+Original animations — no stock clipart.
+
+INDEPENDENT MICRO-REMINDERS
+Between Pomodoro cycles, optional reminders for:
+• Eye rest (default every 20 minutes)
+• Hydration (default every 45 minutes)
+• Stretch / posture (default every 60 minutes)
+Shown as a compact toast or system notification — your choice.
+
+WORKS ON YOUR SCHEDULE
+• Active days and hours (e.g. Mon–Fri 9:00–18:00)
+• Lunch block to pause all timers and reminders
+• Timer blocked outside active hours
+
+FLEXIBLE BREAK LAYOUTS
+Choose how breaks appear: full window, half panel (top/bottom/left/right), popup, or compact toast for micro-reminders.
+
+TRACK YOUR HABITS
+Daily stats for focus sessions completed, breaks taken, skipped, and missed — plus micro-reminder acknowledgments.
+
+DO NOT DISTURB
+Suppress break windows and notifications while the timer and badge keep running.
+
+PRIVACY FIRST
+• All data stored locally on your device (chrome.storage)
+• No accounts, no analytics, no remote code
+• Open source — MIT licensed
+
+Perfect for remote workers, developers, students, and anyone who wants Pomodoro discipline with gentle wellness nudges — not noisy interruptions.
+
+Made with original artwork. See ATTRIBUTIONS in the GitHub repository for license details.

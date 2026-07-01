@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Variants – Calmodoro Prototype</title>
+  <link rel="stylesheet" href="design-tokens.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    body { min-height: 100vh; }
+
+    .layouts-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 28px 24px 64px;
+    }
+
+    .layouts-page h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .layouts-page > p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .layout-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .layout-tabs button {
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+
+    .layout-tabs button.active {
+      background: var(--sage-soft);
+      color: var(--sage-dark);
+      border-color: var(--sage);
+    }
+
+    /* Browser mock frame */
+    .browser-frame {
+      background: #E8E4DF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-strong);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      height: 480px;
+    }
+
+    .browser-chrome {
+      height: 36px;
+      background: #DDD8D2;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .browser-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .browser-dot.r { background: #E07A5F; opacity: 0.7; }
+    .browser-dot.y { background: #D4A574; opacity: 0.7; }
+    .browser-dot.g { background: #7C9A82; opacity: 0.7; }
+
+    .browser-url {
+      flex: 1;
+      margin-left: 8px;
+      background: var(--surface);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .browser-content {
+      position: relative;
+      height: calc(100% - 36px);
+      background: linear-gradient(180deg, #F5F2ED 0%, #EBE7E1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fake-page {
+      width: 70%;
+      height: 60%;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      opacity: 0.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Overlay panels */
+    .overlay {
+      position: absolute;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .overlay.visible { display: flex; }
+
+    .overlay-header {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .overlay-header .title { font-size: 14px; font-weight: 600; }
+
+    .overlay-body {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      overflow: auto;
+    }
+
+    .overlay-mini-triptych {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .mini-panel {
+      flex: 1;
+      max-width: 100px;
+      text-align: center;
+      padding: 8px 4px;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .mini-panel .emoji { font-size: 24px; }
+    .mini-panel .lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+    .overlay-actions {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .overlay-actions .btn { flex: 1; padding: 10px; font-size: 13px; }
+
+    /* Full */
+    .overlay-full { inset: 0; border-radius: 0; border: none; }
+
+    /* Half panels */
+    .overlay-half-right { top: 0; right: 0; width: 50%; height: 100%; }
+    .overlay-half-left  { top: 0; left: 0;  width: 50%; height: 100%; }
+    .overlay-half-top   { top: 0; left: 0;  width: 100%; height: 50%; }
+    .overlay-half-bottom{ bottom: 0; left: 0;width: 100%; height: 50%; }
+
+    /* Toast */
+    .overlay-toast {
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      border-radius: var(--radius);
+    }
+
+    .toast-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .toast-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--sage-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .toast-text h3 { font-size: 14px; font-weight: 600; }
+    .toast-text p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .toast-actions {
+      display: flex;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+
+    .toast-actions .btn { flex: 1; padding: 8px; font-size: 12px; }
+
+    /* Notification mock (outside browser) */
+    .notif-mock-wrap { display: none; padding: 40px; }
+    .notif-mock-wrap.visible { display: flex; justify-content: center; align-items: center; height: calc(100% - 36px); }
+
+    .notif-card {
+      width: 360px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .notif-card .icon {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      background: var(--coral-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+
+    .notif-card h3 { font-size: 14px; font-weight: 600; }
+    .notif-card p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .notif-card .time { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
+    .dimmer {
+      position: absolute;
+      inset: 0;
+      background: rgba(45, 42, 38, 0.25);
+      display: none;
+      z-index: 5;
+    }
+    .dimmer.visible { display: block; }
+
+    .layout-desc {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div id="proto-nav-mount"></div>
+
+  <main class="layouts-page">
+    <h1>Break Presentation Layouts</h1>
+    <p>Choose how reminders and break rituals appear. Micro-reminders use toast; full breaks use triptych.</p>
+
+    <div class="layout-tabs">
+      <button class="active" data-layout="full">Full window</button>
+      <button data-layout="half-right">Half — Right</button>
+      <button data-layout="half-left">Half — Left</button>
+      <button data-layout="half-top">Half — Top</button>
+      <button data-layout="half-bottom">Half — Bottom</button>
+      <button data-layout="toast">Compact toast</button>
+      <button data-layout="notification">System notification</button>
+    </div>
+
+    <div class="browser-frame" id="browser-frame">
+      <div class="browser-chrome">
+        <span class="browser-dot r"></span>
+        <span class="browser-dot y"></span>
+        <span class="browser-dot g"></span>
+        <span class="browser-url">docs.google.com — Your work tab</span>
+      </div>
+
+      <div class="browser-content" id="browser-content">
+        <div class="dimmer" id="dimmer"></div>
+        <div class="fake-page">Your active browser tab</div>
+
+        <!-- Full / half overlays -->
+        <div class="overlay overlay-full visible" id="ov-full">
+          <div class="overlay-header">
+            <span class="title">🍅 Break Time — Hydrate · Blink · Stretch</span>
+            <span class="badge badge-sage">04:32</span>
+          </div>
+          <div class="overlay-body">
+            <div class="overlay-mini-triptych">
+              <div class="mini-panel"><div class="emoji">💧</div><div class="lbl">Hydrate</div></div>
+              <div class="mini-panel"><div class="emoji">👁</div><div class="lbl">Blink</div></div>
+              <div class="mini-panel"><div class="emoji">🧘</div><div class="lbl">Stretch</div></div>
+            </div>
+            <p style="font-size:13px;color:var(--text-muted);text-align:center">Full triptych with animated characters fills the viewport</p>
+          </div>
+          <div class="overlay-actions">
+            <button class="btn btn-primary">Accept Break</button>
+            <button class="btn btn-secondary">Skip</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-half-right" id="ov-half-right">
+          <div class="overlay-header"><span class="title">Short Break</span><span class="badge badge-sage">04:32</span></div>
+          <div class="overlay-body">
+            <div class="overlay-mini-triptych" style="flex-direction:column">
+              <div class="mini-panel"><div class="emoji">💧</div><div class="lbl">Hydrate</div></div>
+              <div class="mini-panel"><div class="emoji">👁</div><div class="lbl">Blink</div></div>
+              <div class="mini-panel"><div class="emoji">🧘</div><div class="lbl">Stretch</div></div>
+            </div>
+          </div>
+          <div class="overlay-actions">
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-secondary">Skip</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-half-left" id="ov-half-left">
+          <div class="overlay-header"><span class="title">Short Break</span><span class="badge badge-sage">04:32</span></div>
+          <div class="overlay-body">
+            <div class="overlay-mini-triptych" style="flex-direction:column">
+              <div class="mini-panel"><div class="emoji">💧</div><div class="lbl">Hydrate</div></div>
+              <div class="mini-panel"><div class="emoji">👁</div><div class="lbl">Blink</div></div>
+              <div class="mini-panel"><div class="emoji">🧘</div><div class="lbl">Stretch</div></div>
+            </div>
+          </div>
+          <div class="overlay-actions">
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-secondary">Skip</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-half-top" id="ov-half-top">
+          <div class="overlay-header"><span class="title">Short Break</span><span class="badge badge-sage">04:32</span></div>
+          <div class="overlay-body">
+            <div class="overlay-mini-triptych">
+              <div class="mini-panel"><div class="emoji">💧</div><div class="lbl">Hydrate</div></div>
+              <div class="mini-panel"><div class="emoji">👁</div><div class="lbl">Blink</div></div>
+              <div class="mini-panel"><div class="emoji">🧘</div><div class="lbl">Stretch</div></div>
+            </div>
+          </div>
+          <div class="overlay-actions">
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-secondary">Skip</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-half-bottom" id="ov-half-bottom">
+          <div class="overlay-header"><span class="title">Short Break</span><span class="badge badge-sage">04:32</span></div>
+          <div class="overlay-body">
+            <div class="overlay-mini-triptych">
+              <div class="mini-panel"><div class="emoji">💧</div><div class="lbl">Hydrate</div></div>
+              <div class="mini-panel"><div class="emoji">👁</div><div class="lbl">Blink</div></div>
+              <div class="mini-panel"><div class="emoji">🧘</div><div class="lbl">Stretch</div></div>
+            </div>
+          </div>
+          <div class="overlay-actions">
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-secondary">Skip</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-toast" id="ov-toast">
+          <div class="toast-row">
+            <div class="toast-icon">👁</div>
+            <div class="toast-text">
+              <h3>Rest your eyes</h3>
+              <p>Look 20 feet away · 20 seconds</p>
+            </div>
+          </div>
+          <div class="toast-actions">
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-ghost">Skip</button>
+          </div>
+        </div>
+
+        <div class="notif-mock-wrap" id="notif-wrap">
+          <div class="notif-card">
+            <div class="icon">🍅</div>
+            <div>
+              <h3>Focus session complete!</h3>
+              <p>Time for a short break. Hydrate, blink, stretch.</p>
+              <div class="time">Just now · Calmodoro</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-desc" id="layout-desc">
+      <strong>Full window</strong> — Immersive break ritual with triptych animations. Best for long breaks and deep recharge.
+    </div>
+  </main>
+
+  <script src="shared.js"></script>
+  <script>
+    const DESCS = {
+      full: '<strong>Full window</strong> — Immersive break ritual with triptych animations. Best for long breaks and deep recharge.',
+      'half-right': '<strong>Half — Right</strong> — 50% panel on the right. Work stays partially visible on the left.',
+      'half-left': '<strong>Half — Left</strong> — 50% panel on the left side of the screen.',
+      'half-top': '<strong>Half — Top</strong> — Upper half overlay. Good for ultrawide monitors.',
+      'half-bottom': '<strong>Half — Bottom</strong> — Lower half overlay. Keeps header/tabs visible.',
+      toast: '<strong>Compact toast</strong> — Bottom-right card for micro-reminders (blink, water). Minimal interruption.',
+      notification: '<strong>System notification</strong> — Native Chrome notification with Accept action. Fallback when DND or minimal mode.'
+    };
+
+    const OVERLAYS = {
+      full: 'ov-full',
+      'half-right': 'ov-half-right',
+      'half-left': 'ov-half-left',
+      'half-top': 'ov-half-top',
+      'half-bottom': 'ov-half-bottom',
+      toast: 'ov-toast'
+    };
+
+    document.querySelectorAll('.layout-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const layout = btn.dataset.layout;
+        document.querySelectorAll('.layout-tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.overlay').forEach(o => o.classList.remove('visible'));
+        document.getElementById('notif-wrap').classList.remove('visible');
+        document.getElementById('dimmer').classList.remove('visible');
+        document.querySelector('.fake-page').style.display = '';
+
+        if (layout === 'notification') {
+          document.getElementById('notif-wrap').classList.add('visible');
+          document.querySelector('.fake-page').style.display = 'none';
+        } else if (layout === 'toast') {
+          document.getElementById(OVERLAYS[layout]).classList.add('visible');
+        } else if (layout.startsWith('half')) {
+          document.getElementById(OVERLAYS[layout]).classList.add('visible');
+          document.getElementById('dimmer').classList.add('visible');
+        } else {
+          document.getElementById(OVERLAYS[layout]).classList.add('visible');
+        }
+
+        document.getElementById('layout-desc').innerHTML = DESCS[layout];
+      });
+    });
+  </script>
+</body>
+</html>

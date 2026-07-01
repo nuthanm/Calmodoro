@@ -1,163 +1,200 @@
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/nuthanm/Calmodoro/actions)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
-[![Manifest V3](https://img.shields.io/badge/Chrome%20Extension-Manifest%20V3-4285F4?logo=googlechrome)](https://developer.chrome.com/docs/extensions/mv3/)
+<p align="center">
+  <img src="docs/hero.png" alt="Calmodoro — calm Pomodoro timer with wellness break rituals and live toolbar badge" width="100%" />
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
+  <a href="https://developer.chrome.com/docs/extensions/mv3/"><img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white" alt="Manifest V3" /></a>
+  <img src="https://img.shields.io/badge/version-2.0.1-E07A5F" alt="Version 2.0.1" />
+  <img src="https://img.shields.io/badge/assets-original%20%2B%20attributed-7C9A82" alt="Original and attributed assets" />
+  <img src="https://img.shields.io/badge/remote%20code-none-6B6560" alt="No remote code" />
+  <img src="https://img.shields.io/badge/analytics-none-6B6560" alt="No analytics" />
+</p>
 
 # Calmodoro
 
-Calmodoro is a Chrome extension that combines a focused Pomodoro timer with calming Lottie animations and visual break reminders. It is designed to help users stay productive while building healthier work and rest habits throughout the day.
+**Calm Pomodoro timer for Chrome** — structured focus sessions, wellness break rituals (hydrate · blink · stretch), independent micro-reminders, and a **live countdown on the toolbar icon** while the timer runs in the background.
 
-## Snapshot (How popup leads to break animation)
+---
 
-```mermaid
-flowchart LR
-  A[Popup: Start Focus] --> B[Background Timer Runs]
-  B --> C{Focus Session Ends}
-  C -->|DND Off| D[Notification]
-  D --> E[Break Window Opens]
-  E --> F[Lottie / Image Animation + Tips + Countdown]
-  C -->|DND On| G[No Popup/Notification]
-```
+## Toolbar icon timer (badge)
+
+When a focus or break session is **running**, Calmodoro shows the remaining time directly on the **extension icon** in Chrome’s toolbar:
+
+| State | Badge example | Color |
+|-------|---------------|-------|
+| Focus running | `18:42` or `25m` | Coral |
+| Break running | `04:32` | Sage |
+| Paused | `⏸` | Gray |
+| Idle | *(empty)* | — |
+
+**How it works**
+
+- Timer state lives in the **background service worker** (`chrome.storage` + `chrome.alarms`) — closing the popup does **not** stop the session.
+- A dedicated **offscreen document** updates the badge **every second** while the timer runs.
+- If offscreen is unavailable, a **30-second alarm fallback** still keeps the badge roughly current.
+- Session end fires reliably via `chrome.alarms` at the stored `endTime`.
+
+You can keep working in any tab and glance at the icon to see time left — no need to keep the popup open.
+
+---
 
 ## Features
 
-- 🍅 **Pomodoro timer** with Start, Pause, Resume, and Reset controls
-- ⏱️ **Countdown badge** — live timer shown on the extension icon even when the popup is closed
-- ⚙️ **Adjustable intervals** — customise focus, short break, and long break durations
-- 🎬 **Lottie break animations** — stretching and water-reminder animations loop during each break
-- 🪟 **Break window placement options** — popup, full window, side-left, or side-right
-- 🔕 **Do Not Disturb mode** — suppresses all break pop-ups and notifications
-- 🔁 **Auto-start** — optionally auto-start breaks or the next focus session
-- 📦 **Manifest V3** — built on the latest Chrome extension platform
+| Feature | Description |
+|---------|-------------|
+| **Pomodoro timer** | Focus, short break, long break — Start / Pause / Resume / Reset |
+| **Live icon badge** | Second-by-second countdown on the toolbar icon |
+| **Break triptych** | Three-panel ritual: hydrate, blink, stretch/walk (original CSS/SVG animations) |
+| **Micro-reminders** | Independent eye, water, and stretch intervals during active hours |
+| **Active schedule** | Work days, start/end times, lunch block |
+| **Time-slot durations** | e.g. 50 min morning focus, 25 min afternoon |
+| **Layout options** | Full, half (top/bottom/left/right), popup, compact toast |
+| **Skip & miss tracking** | Stats for completed, skipped, and missed breaks |
+| **Do Not Disturb** | Suppress overlays; timer and badge still run |
+| **Offline recovery** | Ask / resume / reset after system sleep (configurable) |
 
-## Project Structure
+---
 
-```
-Calmodoro/
-├── manifest.json          # Extension manifest (MV3)
-├── background.js          # Service worker: timer, badge, alarms, notifications
-├── popup.html/css/js      # Toolbar popup: Start/Pause/Reset, progress ring, session dots
-├── settings.html/css/js   # Settings page: durations, DND, auto-start toggles
-├── break.html/css/js      # Break animation overlay with Lottie + CSS fallback
-├── lottie/
-│   ├── lottie.min.js      # lottie-web player (bundled)
-│   └── animations/
-│       ├── stretch.json   # Breathing/stretching animation (short break)
-│       └── water.json     # Water drop animation (long break)
-└── icons/                 # Extension icons (16, 32, 48, 128 px)
-```
+## How it works
 
-## Getting Started
+<p align="center">
+  <img src="docs/flow-diagram.png" alt="Calmodoro flow: Start focus, background timer with icon badge, break triptych or micro-reminders, accept or skip with stats" width="100%" />
+</p>
 
-### Load the extension locally (Developer mode)
+---
+
+## Getting started
+
+### Install locally (Developer mode)
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/nuthanm/Calmodoro.git
    cd Calmodoro
    ```
-2. Open Chrome and navigate to `chrome://extensions`.
-3. Enable **Developer mode** (top-right toggle).
-4. Click **Load unpacked** and select the `Calmodoro` project folder.
-5. The 🍅 Calmodoro icon appears in the Chrome toolbar.
+2. Open Chrome → `chrome://extensions`
+3. Enable **Developer mode**
+4. Click **Load unpacked** → select the `Calmodoro` folder
+5. Pin the Calmodoro icon to the toolbar
 
-### Test changes
+### Verify the icon timer
 
-After editing any source file:
-- Go to `chrome://extensions` and click the **↺ Reload** icon on the Calmodoro card.
-- For service worker changes, also click **Service Worker → Inspect** to open the DevTools console.
+1. Click the Calmodoro icon → **Start Focus**
+2. **Close the popup** and browse normally
+3. Watch the **badge on the icon** count down each second
+4. When the session ends, the break window opens (unless DND is on)
 
-### Package for distribution
+### Reload after code changes
 
-To create a `.zip` ready for the Chrome Web Store:
+- Click **Reload** on the extension card at `chrome://extensions`
+- For service worker changes, use **Service worker → Inspect** to view logs
+
+---
+
+## Project structure
+
+```
+Calmodoro/
+├── manifest.json           # MV3 manifest (v2.0.1)
+├── background.js           # Service worker: timer, badge, alarms, reminders
+├── offscreen.html/js       # 1-second toolbar badge updates
+├── timerUtils.js           # Badge text formatting
+├── settingsDefaults.js     # Shared settings schema
+├── scheduleUtils.js        # Active hours & time slots
+├── statsUtils.js           # Daily skip/miss/completion stats
+├── popup.html/css/js       # Toolbar popup
+├── break.html/css/js       # Break triptych overlay
+├── toast.html/css/js       # Compact micro-reminder card
+├── settings.html/css/js    # Full settings page
+├── stats.html/css/js       # Progress & activity log
+├── recovery.html           # Missed-break prompt after offline
+├── design-tokens.css       # Soft light design system
+├── animations.css          # Original character motion
+├── characters.js           # Original SVG character art
+├── docs/
+│   ├── hero.png            # README hero banner (PNG — displays on GitHub)
+│   ├── hero.svg            # Vector source for hero
+│   └── flow-diagram.png    # README flow diagram (PNG)
+├── ChromeWebStore/         # Store listing kit (screenshots, descriptions, checklist)
+├── icons/                  # Extension icons (PNG)
+├── ATTRIBUTIONS.md         # License & attribution registry
+└── prototype/              # Design preview (not shipped)
+```
+
+---
+
+## Intellectual property & compliance
+
+Calmodoro is designed to avoid copyright strikes and licensing surprises:
+
+| Policy | Status |
+|--------|--------|
+| Original break character animations | Yes — `characters.js`, `animations.css` |
+| Original icons & hero banner | Yes — `icons/`, `docs/hero.png` |
+| Stock photos / commercial illustration packs | **Not used** |
+| Remote code execution | **None** |
+| Analytics / tracking SDKs | **None** |
+| Third-party fonts | DM Sans via Google Fonts (SIL OFL 1.1) |
+| Optional legacy library | lottie-web (MIT) — see [ATTRIBUTIONS.md](./ATTRIBUTIONS.md) |
+
+**Before adding any external asset**, read the maintainer checklist in [ATTRIBUTIONS.md](./ATTRIBUTIONS.md).
+
+---
+
+## Licenses & attributions
+
+| Document | Purpose |
+|----------|---------|
+| [LICENSE](./LICENSE) | MIT License for project source code |
+| [ATTRIBUTIONS.md](./ATTRIBUTIONS.md) | Structured registry of all third-party and original assets |
+
+**Summary:** Project code is **MIT**. Original artwork is **MIT**. DM Sans is **SIL OFL 1.1**. lottie-web is **MIT** (optional). No asset requires a paid license or prohibits commercial use in the default configuration.
+
+---
+
+## Settings overview
+
+Open **Settings** from the gear icon in the popup:
+
+- **Active hours** — days, start/end, lunch block
+- **Durations** — focus, breaks, sessions before long break, morning/afternoon slots
+- **Micro-reminders** — blink, water, stretch intervals
+- **Presentation** — break layout, toast vs notification
+- **After sleep** — ask (default), resume, or reset
+
+---
+
+## Package for Chrome Web Store
 
 ```bash
-# From the repository root
+# From repository root (exclude docs/prototype if desired)
 zip -r calmodoro.zip . \
   --exclude "*.git*" \
-  --exclude "*.md" \
-  --exclude "*.gitignore"
+  --exclude "prototype/*" \
+  --exclude ".gitignore"
 ```
 
 Upload `calmodoro.zip` to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole/).
 
-## Usage
+**Full publishing kit** (screenshots, descriptions, checklist, privacy policy): see [ChromeWebStore/README.md](./ChromeWebStore/README.md).
 
-### Start a focus session
+Include [ATTRIBUTIONS.md](./ATTRIBUTIONS.md) in your store listing or privacy notes if reviewers ask about asset provenance.
 
-1. Click the 🍅 icon in the Chrome toolbar.
-2. Select a mode (Focus / Short Break / Long Break) using the top tabs.
-3. Press **Start** — the countdown begins and the badge on the icon tracks remaining time.
-4. Press **Pause** to suspend the timer, and **Resume** to continue.
-5. Press the reset icon (↺) to return to the idle state.
-
-### Take guided breaks
-
-When a focus session finishes, Calmodoro:
-1. Shows a browser notification (unless Do Not Disturb is on).
-2. Opens an animated break window with a breathing animation and wellness tips.
-3. Displays a break countdown — the animation loops for the full break duration.
-4. Click **Skip →** at any time to dismiss the break and return to work.
-
-### Adjust your routine
-
-Click the ⚙ gear icon in the popup header to open the Settings page where you can:
-- Change focus and break durations (1-minute granularity)
-- Set how many focus sessions before a long break (default: 4)
-- Choose break window placement (popup / full / side-left / side-right)
-- Enable or disable Do Not Disturb mode
-- Toggle auto-start for breaks and focus sessions
-
-### Do Not Disturb mode
-
-Toggle **Do Not Disturb** directly in the popup or in Settings. When enabled:
-- The break animation window is not opened
-- Browser notifications are suppressed
-- The timer continues and the badge still counts down
-
-## Customising Lottie animations
-
-The break page uses [lottie-web](https://github.com/airbnb/lottie-web) (bundled at `lottie/lottie.min.js`) to play the animations in `lottie/animations/`. To swap in your own animations:
-
-1. Download a **free-to-use** animation from [LottieFiles](https://lottiefiles.com/) as a `.json` file.
-2. Replace `lottie/animations/stretch.json` (short break) or `lottie/animations/water.json` (long break).
-3. Reload the extension in `chrome://extensions`.
-
-### Attribution and licensing guidance (organization-safe)
-
-- Keep using free animations and verify each asset's license before adding it.
-- Add attribution details for each third-party animation in [`ATTRIBUTIONS.md`](./ATTRIBUTIONS.md).
-- Prefer assets that are free for commercial/organizational use to avoid deployment interruptions.
-
-If the JSON fails to load, the break page automatically falls back to the CSS breathing-ring animation.
-
-## Architecture notes
-
-| Component | Mechanism |
-|-----------|-----------|
-| Timer persistence | `chrome.storage.local` stores `endTime`, `state`, `mode` |
-| Session end alarm | `chrome.alarms` fires at the exact `endTime` timestamp |
-| Badge (popup open) | `popup.js` updates badge every second via `chrome.action.setBadgeText` |
-| Badge (popup closed) | Background `badgeTick` alarm updates the badge every ~1 minute |
-| Break animation | `break.js` plays the Lottie animation in a loop for the break duration, then stops |
+---
 
 ## Contributing
 
-Contributions are welcome.
+1. Fork the repository
+2. Create a feature branch
+3. Keep changes focused and test in Chrome (unpacked)
+4. **Do not add copyrighted assets** without documenting them in ATTRIBUTIONS.md
+5. Open a pull request with a clear summary
 
-1. Fork the repository.
-2. Create a feature branch.
-3. Make focused, well-documented changes.
-4. Test your updates in Chrome using the unpacked extension workflow.
-5. Open a pull request with a clear summary of what changed and why.
+---
 
-Please keep changes small, reviewable, and aligned with the existing product direction.
+## About
 
-## License
+Calmodoro helps you stay productive with structured focus and gentle wellness rituals — without noisy notifications or licensing risk.
 
-This project is licensed under the MIT License. See the [LICENSE](/LICENSE) file for details.
-
-## About / Contact
-
-Calmodoro is intended to make time management feel calmer, more visual, and easier to maintain throughout the day.
-
-For questions, ideas, or collaboration, open an issue in this repository or contact the maintainer through the repository profile.
+For questions or ideas, open an issue in this repository.

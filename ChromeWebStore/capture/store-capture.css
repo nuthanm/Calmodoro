@@ -1,0 +1,419 @@
+/* Shared Chrome Web Store screenshot framing — 1280×800 */
+
+html, body {
+  width: 1280px;
+  height: 800px;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Browser chrome mock ── */
+.browser-frame {
+  width: 1280px;
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  background: #EBE7E1;
+}
+
+.browser-titlebar {
+  height: 38px;
+  background: #DEE1E6;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  border-bottom: 1px solid #C4C7CC;
+  flex-shrink: 0;
+}
+
+.win-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.win-btn.close { background: #FF5F57; }
+.win-btn.min { background: #FFBD2E; }
+.win-btn.max { background: #28CA41; }
+
+.browser-titlebar .title {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: #5F6368;
+  margin-right: 44px;
+}
+
+.tab-strip {
+  height: 36px;
+  background: #DEE1E6;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 8px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tab-item {
+  height: 34px;
+  min-width: 180px;
+  max-width: 220px;
+  background: #E8EAED;
+  border-radius: 8px 8px 0 0;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #5F6368;
+  border: 1px solid #C4C7CC;
+  border-bottom: none;
+}
+
+.tab-item.active {
+  background: #F1F3F4;
+  color: #202124;
+  font-weight: 500;
+}
+
+.tab-item .favicon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.tab-item .favicon.doc { background: linear-gradient(135deg, #4285F4, #34A853); }
+.tab-item .favicon.newtab { background: linear-gradient(135deg, #E07A5F, #7C9A82); border-radius: 50%; }
+
+.toolbar-row {
+  height: 44px;
+  background: #F1F3F4;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+  border-bottom: 1px solid #DADCE0;
+  flex-shrink: 0;
+}
+
+.nav-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5F6368;
+  font-size: 14px;
+}
+
+.address-bar {
+  flex: 1;
+  height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  font-size: 13px;
+  color: #5F6368;
+}
+
+.address-bar .lock { font-size: 11px; color: #34A853; }
+
+.ext-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 8px;
+  border-left: 1px solid #DADCE0;
+  margin-left: 4px;
+}
+
+.ext-icon-slot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #FAF8F5;
+}
+
+.ext-icon-slot.pinned {
+  background: rgba(224, 122, 95, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(224, 122, 95, 0.25);
+}
+
+.ext-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: #E07A5F;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 8px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  line-height: 1.2;
+  min-width: 32px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ext-badge.sage { background: #7C9A82; }
+
+.browser-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Generic “working” page background */
+.page-work {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #FAF8F5 0%, #F3F0EB 100%);
+  padding: 48px 80px;
+}
+
+.page-work .doc-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2D2A26;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.page-work .doc-line {
+  height: 10px;
+  background: rgba(45, 42, 38, 0.06);
+  border-radius: 5px;
+  margin-bottom: 12px;
+}
+
+.page-work .doc-line.w80 { width: 80%; }
+.page-work .doc-line.w65 { width: 65%; }
+.page-work .doc-line.w90 { width: 90%; }
+.page-work .doc-line.w45 { width: 45%; }
+
+/* Popup floating under extension icon */
+.popup-anchor {
+  position: absolute;
+  top: 8px;
+  right: 72px;
+  z-index: 10;
+}
+
+.popup-shadow {
+  box-shadow: 0 16px 48px rgba(45, 42, 38, 0.18), 0 0 0 1px rgba(60, 50, 40, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Full-page extension views (settings, stats, break) */
+.fullpage-view {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg, #FAF8F5);
+}
+
+.fullpage-view .page,
+.fullpage-view .stats-page,
+.fullpage-view .break-shell {
+  max-width: none;
+  height: 100%;
+}
+
+/* Settings capture layout */
+.settings-capture {
+  padding: 40px 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-content: start;
+}
+
+.settings-capture .card { margin: 0; }
+
+/* Stats capture layout */
+.stats-capture {
+  padding: 36px 100px;
+}
+
+.stats-capture .summary-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Badge highlight scene */
+.badge-scene {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  background: linear-gradient(135deg, #FAF8F5 0%, #F3F0EB 50%, #EBE7E1 100%);
+}
+
+.badge-scene-left {
+  padding: 60px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badge-scene-left h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2D2A26;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.badge-scene-left p {
+  font-size: 17px;
+  color: #6B6560;
+  line-height: 1.55;
+  max-width: 420px;
+}
+
+.badge-scene-left .feature-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.badge-scene-left .feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #2D2A26;
+  font-weight: 500;
+}
+
+.badge-scene-left .feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E07A5F;
+  flex-shrink: 0;
+}
+
+.badge-scene-left .feature-dot.sage { background: #7C9A82; }
+
+.badge-scene-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.toolbar-showcase {
+  background: #F1F3F4;
+  border: 1px solid #DADCE0;
+  border-radius: 16px;
+  padding: 20px 28px;
+  box-shadow: 0 12px 40px rgba(45, 42, 38, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.toolbar-showcase .mock-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #E8EAED;
+}
+
+.toolbar-showcase .mock-toolbar .address-mini {
+  flex: 1;
+  height: 28px;
+  background: #F1F3F4;
+  border-radius: 14px;
+  font-size: 11px;
+  color: #9AA0A6;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.toolbar-showcase .ext-icon-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #FAF8F5;
+  border: 2px solid rgba(224, 122, 95, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+.toolbar-showcase .ext-icon-large .ext-badge {
+  font-size: 13px;
+  padding: 4px 8px;
+  top: -8px;
+  right: -12px;
+  min-width: 48px;
+}
+
+.toolbar-showcase .state-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.toolbar-showcase .state-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #FAF8F5;
+  border-radius: 12px;
+  border: 1px solid rgba(60, 50, 40, 0.08);
+  min-width: 100px;
+}
+
+.toolbar-showcase .state-chip .chip-label {
+  font-size: 11px;
+  color: #9A948D;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.toolbar-showcase .state-chip .chip-badge {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 8px;
+  color: white;
+}
+
+.toolbar-showcase .state-chip .chip-badge.coral { background: #E07A5F; }
+.toolbar-showcase .state-chip .chip-badge.sage { background: #7C9A82; }
+
+/* Calmodoro logo SVG inline helper */
+.logo-svg { display: block; }

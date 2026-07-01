@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Calmodoro",
-  "version": "1.0.0",
-  "description": "Pomodoro timer with calming animations and break reminders",
-  "permissions": ["storage", "alarms", "notifications", "windows"],
+  "version": "2.0.2",
+  "description": "Calm Pomodoro timer with wellness break rituals, micro-reminders, and schedule-aware focus",
+  "permissions": ["storage", "alarms", "notifications", "windows", "offscreen"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

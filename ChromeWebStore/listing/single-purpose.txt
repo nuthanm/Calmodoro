@@ -1,0 +1,1 @@
+Calmodoro provides a Pomodoro focus timer with scheduled wellness break reminders (hydrate, eye rest, stretch) and a live countdown on the extension toolbar icon.

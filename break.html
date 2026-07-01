@@ -4,63 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Break Time – Calmodoro</title>
+  <link rel="stylesheet" href="design-tokens.css">
+  <link rel="stylesheet" href="animations.css">
   <link rel="stylesheet" href="break.css">
 </head>
 <body>
 
-  <!-- Animated background blobs -->
-  <div class="blob blob-1" aria-hidden="true"></div>
-  <div class="blob blob-2" aria-hidden="true"></div>
-
-  <div class="break-page">
-
-    <!-- Header -->
-    <header class="break-header">
-      <span class="logo">🍅 Calmodoro</span>
-      <span class="break-badge" id="break-badge">Short Break</span>
-    </header>
-
-    <!-- Lottie / CSS animation area -->
-    <div class="animation-area">
-      <div class="mode-glyph" id="mode-glyph" aria-hidden="true"></div>
-      <!-- Lottie player (populated by break.js) -->
-      <div id="lottie-container" class="lottie-wrap" aria-hidden="true"></div>
-
-      <!-- CSS fallback animation shown until/if Lottie loads -->
-      <div class="css-anim" id="css-anim" aria-hidden="true">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
-        <div class="center-icon" id="anim-icon">🧘</div>
-      </div>
-    </div>
-
-    <!-- Break headline & tips -->
-    <div class="break-body">
-      <h1 class="break-heading" id="break-heading">Time to recharge!</h1>
-      <p  class="break-sub"     id="break-sub">Step away, breathe, and return refreshed.</p>
-
-      <!-- Wellness cards – populated by break.js -->
-      <div class="wellness-cards" id="break-tips" aria-label="Break wellness tips"></div>
-    </div>
-
-    <!-- Countdown + actions -->
-    <div class="break-footer">
-      <div class="countdown" id="countdown">
-        <span class="countdown-time" id="countdown-time">05:00</span>
-        <span class="countdown-label">remaining</span>
-      </div>
-
-      <div class="break-actions">
-        <button class="btn-start-break" id="start-break-btn">Start Break</button>
-        <button class="btn-skip"        id="skip-btn">Skip →</button>
-      </div>
-    </div>
-
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
   </div>
 
-  <!-- Lottie web library (bundled locally) -->
-  <script src="lottie/lottie.min.js"></script>
+  <main class="break-shell">
+    <div class="break-top">
+      <div class="break-title-block">
+        <a class="logo-mark" href="#">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="15" fill="#E07A5F" opacity="0.15"/>
+            <ellipse cx="16" cy="18" rx="9" ry="10" fill="#E07A5F"/>
+            <path d="M10 14 Q16 6 22 14" fill="#7C9A82"/>
+          </svg>
+          <span class="wordmark">Calmodoro</span>
+        </a>
+        <h1 id="break-heading">Time to recharge</h1>
+        <p id="break-sub">Hydrate · Rest your eyes · Move your body</p>
+      </div>
+      <div class="break-meta">
+        <span class="badge badge-sage" id="break-badge">Short Break</span>
+        <div class="countdown-pill">
+          <span class="time" id="countdown-time">05:00</span>
+          <span class="label">remaining</span>
+        </div>
+        <button class="sound-toggle" id="sound-btn" title="Toggle sound" aria-label="Toggle sound">🔕</button>
+      </div>
+    </div>
+
+    <div class="triptych" id="triptych">
+      <div class="wellness-panel panel-accent-hydrate">
+        <span class="panel-label">Hydrate</span>
+        <div class="anim-stage" id="anim-hydrate"></div>
+        <p class="panel-tip">Drink a full glass of water. Stay sharp and hydrated.</p>
+      </div>
+      <div class="wellness-panel panel-accent-blink">
+        <span class="panel-label">Rest Eyes</span>
+        <div class="anim-stage" id="anim-blink"></div>
+        <p class="panel-tip">20-20-20: look 20 feet away for 20 seconds.</p>
+      </div>
+      <div class="wellness-panel panel-accent-move">
+        <span class="panel-label">Move</span>
+        <div class="move-toggle" id="move-toggle">
+          <button class="active" data-anim="stretch">Stretch</button>
+          <button data-anim="walk">Walk</button>
+        </div>
+        <div class="anim-stage" id="anim-move"></div>
+        <p class="panel-tip" id="move-tip">Reach up, roll shoulders — undo desk posture.</p>
+      </div>
+    </div>
+
+    <div class="break-footer">
+      <button class="btn btn-primary" id="accept-btn">Accept Break</button>
+      <button class="btn btn-secondary" id="skip-btn">Skip →</button>
+    </div>
+  </main>
+
+  <script src="characters.js"></script>
   <script src="break.js"></script>
 </body>
 </html>

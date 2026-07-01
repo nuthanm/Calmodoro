@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missed Break – Calmodoro</title>
+  <link rel="stylesheet" href="design-tokens.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--bg);
+    }
+    .recovery-card {
+      max-width: 380px;
+      width: 100%;
+      padding: 28px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .recovery-icon { font-size: 48px; }
+    .recovery-card h1 { font-size: 20px; font-weight: 700; }
+    .recovery-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+    .recovery-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .recovery-actions .btn { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="card recovery-card">
+    <div class="recovery-icon">💤</div>
+    <h1>You missed a break</h1>
+    <p>Calmodoro was paused while your system was off. Would you like to take your break now?</p>
+    <div class="recovery-actions">
+      <button class="btn btn-primary" id="accept-btn">Take Break Now</button>
+      <button class="btn btn-secondary" id="skip-btn">Skip & Reset</button>
+    </div>
+  </div>
+  <script>
+    document.getElementById('accept-btn').addEventListener('click', async () => {
+      await chrome.runtime.sendMessage({ action: 'recoveryAccept' });
+      window.close();
+    });
+    document.getElementById('skip-btn').addEventListener('click', async () => {
+      await chrome.runtime.sendMessage({ action: 'recoverySkip' });
+      window.close();
+    });
+  </script>
+</body>
+</html>

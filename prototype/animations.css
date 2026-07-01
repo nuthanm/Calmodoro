@@ -1,0 +1,224 @@
+/* Original CSS/SVG character animations — Calmodoro prototype */
+
+/* ── Panel layout ─────────────────────────────────────── */
+.triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .triptych { grid-template-columns: 1fr; }
+}
+
+.wellness-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wellness-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.wellness-panel .panel-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wellness-panel .panel-tip {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.anim-stage {
+  width: 140px;
+  height: 160px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* ── Hydrate animation ────────────────────────────────── */
+.anim-hydrate .person-head {
+  fill: #FFD5A8;
+}
+
+.anim-hydrate .person-body {
+  stroke: #7C9A82;
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.anim-hydrate .cup {
+  animation: tilt-cup 2.4s ease-in-out infinite;
+  transform-origin: 70px 95px;
+}
+
+.anim-hydrate .water-stream {
+  opacity: 0;
+  animation: pour-water 2.4s ease-in-out infinite;
+}
+
+.anim-hydrate .swallow {
+  animation: swallow 2.4s ease-in-out infinite;
+}
+
+@keyframes tilt-cup {
+  0%, 15%   { transform: rotate(0deg); }
+  35%, 55%  { transform: rotate(-28deg); }
+  75%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes pour-water {
+  0%, 30%   { opacity: 0; }
+  35%, 50%  { opacity: 0.7; }
+  55%, 100% { opacity: 0; }
+}
+
+@keyframes swallow {
+  0%, 50%   { transform: scaleY(1); }
+  55%       { transform: scaleY(0.92); }
+  65%, 100% { transform: scaleY(1); }
+}
+
+/* ── Blink animation ──────────────────────────────────── */
+.anim-blink .eye-open  { animation: eyes-open 3s ease-in-out infinite; }
+.anim-blink .eye-closed{ animation: eyes-closed 3s ease-in-out infinite; }
+
+@keyframes eyes-open {
+  0%, 40%, 100% { opacity: 1; }
+  45%, 55%      { opacity: 0; }
+}
+
+@keyframes eyes-closed {
+  0%, 40%, 100% { opacity: 0; }
+  45%, 55%      { opacity: 1; }
+}
+
+.anim-blink .blink-hint {
+  animation: fade-hint 3s ease-in-out infinite;
+}
+
+@keyframes fade-hint {
+  0%, 35%  { opacity: 0; }
+  45%, 60% { opacity: 1; }
+  70%, 100%{ opacity: 0; }
+}
+
+/* ── Stretch animation ────────────────────────────────── */
+.anim-stretch .arm-left {
+  animation: stretch-left 2.8s ease-in-out infinite;
+  transform-origin: 64px 72px;
+}
+
+.anim-stretch .arm-right {
+  animation: stretch-right 2.8s ease-in-out infinite;
+  transform-origin: 64px 72px;
+}
+
+.anim-stretch .torso {
+  animation: stretch-torso 2.8s ease-in-out infinite;
+  transform-origin: 64px 80px;
+}
+
+@keyframes stretch-left {
+  0%, 20%   { transform: rotate(0deg); }
+  40%, 70%  { transform: rotate(-55deg); }
+  90%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes stretch-right {
+  0%, 20%   { transform: rotate(0deg); }
+  40%, 70%  { transform: rotate(55deg); }
+  90%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes stretch-torso {
+  0%, 20%   { transform: scaleY(1); }
+  40%, 70%  { transform: scaleY(1.06); }
+  90%, 100% { transform: scaleY(1); }
+}
+
+/* ── Walk animation ───────────────────────────────────── */
+.anim-walk .leg-left  { animation: walk-leg-left 1.2s ease-in-out infinite; }
+.anim-walk .leg-right { animation: walk-leg-right 1.2s ease-in-out infinite; }
+.anim-walk .arm-left  { animation: walk-arm-left 1.2s ease-in-out infinite; }
+.anim-walk .arm-right { animation: walk-arm-right 1.2s ease-in-out infinite; }
+.anim-walk .walker    { animation: walk-bob 1.2s ease-in-out infinite; }
+
+@keyframes walk-leg-left {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(28deg); }
+}
+
+@keyframes walk-leg-right {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-28deg); }
+}
+
+@keyframes walk-arm-left {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-22deg); }
+}
+
+@keyframes walk-arm-right {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(22deg); }
+}
+
+@keyframes walk-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* Background blobs (break page) */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: blob-drift 10s ease-in-out infinite alternate;
+}
+
+.bg-blob-1 {
+  width: 400px; height: 400px;
+  background: var(--sage-soft);
+  top: -80px; left: -80px;
+}
+
+.bg-blob-2 {
+  width: 320px; height: 320px;
+  background: var(--sky-soft);
+  bottom: -60px; right: -60px;
+  animation-delay: -5s;
+}
+
+@keyframes blob-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(24px, 16px) scale(1.06); }
+}

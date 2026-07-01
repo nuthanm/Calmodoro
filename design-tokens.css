@@ -1,0 +1,179 @@
+/* Calmodoro Prototype – Soft Light Wellness Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+:root {
+  --bg:           #FAF8F5;
+  --bg-subtle:    #F3F0EB;
+  --surface:      #FFFFFF;
+  --surface-hover:#F8F6F2;
+  --border:       rgba(60, 50, 40, 0.08);
+  --border-strong:rgba(60, 50, 40, 0.14);
+
+  --coral:        #E07A5F;
+  --coral-soft:   rgba(224, 122, 95, 0.12);
+  --coral-dark:   #C96A52;
+  --sage:         #7C9A82;
+  --sage-soft:    rgba(124, 154, 130, 0.14);
+  --sage-dark:    #5F7D65;
+  --sky:          #6BA3BE;
+  --sky-soft:     rgba(107, 163, 190, 0.14);
+  --sky-dark:     #4E8AA6;
+  --amber:        #D4A574;
+  --amber-soft:   rgba(212, 165, 116, 0.16);
+
+  --text:         #2D2A26;
+  --text-secondary:#6B6560;
+  --text-muted:   #9A948D;
+
+  --focus:        var(--coral);
+  --short-break:  var(--sage);
+  --long-break:   var(--sky);
+
+  --radius-sm:    10px;
+  --radius:       16px;
+  --radius-lg:    24px;
+  --radius-pill:  100px;
+
+  --shadow-sm:    0 1px 3px rgba(45, 42, 38, 0.06);
+  --shadow:       0 4px 20px rgba(45, 42, 38, 0.08);
+  --shadow-lg:    0 12px 40px rgba(45, 42, 38, 0.10);
+
+  --font:         'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --mode-color:   var(--focus);
+  --mode-soft:    var(--coral-soft);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.logo-mark svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+.logo-mark .wordmark {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--mode-color);
+  color: #fff;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--mode-color) 35%, transparent);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--mode-color) 40%, transparent);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover { background: var(--surface-hover); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px 16px;
+}
+
+.btn-ghost:hover { color: var(--text); background: var(--bg-subtle); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-sage { background: var(--sage-soft); color: var(--sage-dark); }
+.badge-sky  { background: var(--sky-soft);  color: var(--sky-dark); }
+.badge-coral{ background: var(--coral-soft);color: var(--coral-dark); }
+
+.proto-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.proto-nav-links { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.proto-nav-links a {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.proto-nav-links a:hover { background: var(--bg-subtle); color: var(--text); }
+.proto-nav-links a.active { background: var(--coral-soft); color: var(--coral-dark); }
+
+.proto-banner {
+  background: linear-gradient(135deg, var(--coral-soft), var(--sage-soft));
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.proto-banner strong { color: var(--text); }
