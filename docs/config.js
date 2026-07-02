@@ -2,7 +2,7 @@
 // Example: 'https://chromewebstore.google.com/detail/calmodoro/EXTENSION_ID'
 window.CALMODORO_CONFIG = {
   CHROME_WEB_STORE_URL: '',
-  VERSION: '2.0.2',
+  VERSION: '1.0.0',
   GITHUB_URL: 'https://github.com/nuthanm/Calmodoro',
   SUPPORT_URL: 'https://github.com/nuthanm/Calmodoro/issues'
 };

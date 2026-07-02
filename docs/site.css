@@ -438,29 +438,28 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-muted);
 }
 .showcase-panel {
-  position: relative;
+  width: 100%;
+  min-width: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-lg);
   background: var(--surface-2);
-  aspect-ratio: 16 / 10;
+  padding: 12px;
 }
 .showcase-panel img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
   object-position: center top;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  position: absolute;
-  inset: 0;
-  padding: 12px;
-  background: var(--surface-2);
+  display: none;
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
 }
-.showcase-panel img.active { opacity: 1; }
+.showcase-panel img.active {
+  display: block;
+}
 .showcase-panel--popup {
-  aspect-ratio: 4 / 5;
   max-width: 420px;
   margin: 0 auto;
 }
