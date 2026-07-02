@@ -28,20 +28,21 @@ body {
 .logo-mark { cursor: default; }
 
 .icon-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: none;
   cursor: pointer;
   color: var(--text-muted);
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  transition: background 0.15s, color 0.15s;
+  border-radius: 8px;
+  transition: color 0.15s;
+  padding: 0;
 }
-.icon-btn svg { width: 16px; height: 16px; }
-.icon-btn:hover { background: var(--surface-hover); color: var(--text); }
+.icon-btn svg { width: 22px; height: 22px; }
+.icon-btn:hover { color: var(--text); }
 
 .schedule-banner {
   width: 100%;

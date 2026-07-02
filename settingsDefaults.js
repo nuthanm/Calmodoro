@@ -37,6 +37,25 @@ const CalmodoroSettings = (() => {
     longBreak: '#6BA3BE'
   };
 
+  function buildDurationSlots(schedule, savedSlots) {
+    const startTime = schedule?.startTime || '09:00';
+    const endTime = schedule?.endTime || '18:00';
+    const lunchStart = schedule?.lunchStart || '12:30';
+    const lunchEnd = schedule?.lunchEnd || '13:30';
+    return [
+      {
+        start: startTime,
+        end: lunchStart,
+        workDuration: savedSlots?.[0]?.workDuration ?? 50
+      },
+      {
+        start: lunchEnd,
+        end: endTime,
+        workDuration: savedSlots?.[1]?.workDuration ?? 25
+      }
+    ];
+  }
+
   function mergeSettings(saved) {
     const s = { ...DEFAULT_SETTINGS, ...(saved || {}) };
     s.schedule = { ...DEFAULT_SETTINGS.schedule, ...(saved?.schedule || {}) };
@@ -45,9 +64,7 @@ const CalmodoroSettings = (() => {
       water:   { ...DEFAULT_SETTINGS.microReminders.water,   ...(saved?.microReminders?.water   || {}) },
       stretch: { ...DEFAULT_SETTINGS.microReminders.stretch, ...(saved?.microReminders?.stretch || {}) }
     };
-    s.durationSlots = saved?.durationSlots?.length
-      ? saved.durationSlots
-      : DEFAULT_SETTINGS.durationSlots;
+    s.durationSlots = buildDurationSlots(s.schedule, saved?.durationSlots);
     return s;
   }
 

@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     pill.addEventListener('click', () => pill.classList.toggle('active'));
   });
 
+  ['schedule-start', 'schedule-end', 'lunch-start', 'lunch-end'].forEach((id) => {
+    document.getElementById(id).addEventListener('change', updateSlotLabels);
+  });
+
   document.getElementById('save-btn').addEventListener('click', saveSettings);
   document.getElementById('defaults-btn').addEventListener('click', restoreDefaults);
 });
@@ -28,6 +32,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadSettings() {
   const data = await chrome.storage.local.get('settings');
   applyToForm(mergeSettings(data.settings));
+}
+
+function readScheduleFromForm() {
+  return {
+    activeDays: readActiveDays(),
+    startTime: document.getElementById('schedule-start').value || '09:00',
+    endTime: document.getElementById('schedule-end').value || '18:00',
+    lunchStart: document.getElementById('lunch-start').value || '12:30',
+    lunchEnd: document.getElementById('lunch-end').value || '13:30'
+  };
+}
+
+function readActiveDays() {
+  const activeDays = [];
+  document.querySelectorAll('.day-pill.active').forEach((p) => {
+    activeDays.push(Number(p.dataset.day));
+  });
+  return activeDays.length ? activeDays : DEFAULT_SETTINGS.schedule.activeDays;
+}
+
+function updateSlotLabels() {
+  const schedule = readScheduleFromForm();
+  const slots = CalmodoroSchedule.buildDurationSlots(schedule, []);
+  document.getElementById('morning-focus-label').textContent =
+    `Morning focus (${CalmodoroSchedule.formatTimeRange(slots[0].start, slots[0].end)})`;
+  document.getElementById('afternoon-focus-label').textContent =
+    `Afternoon focus (${CalmodoroSchedule.formatTimeRange(slots[1].start, slots[1].end)})`;
 }
 
 function applyToForm(s) {
@@ -66,13 +97,12 @@ function applyToForm(s) {
   document.querySelectorAll('input[name="offline"]').forEach((r) => {
     r.checked = r.value === offline;
   });
+
+  updateSlotLabels();
 }
 
 function readForm() {
-  const activeDays = [];
-  document.querySelectorAll('.day-pill.active').forEach((p) => {
-    activeDays.push(Number(p.dataset.day));
-  });
+  const schedule = readScheduleFromForm();
 
   return {
     workDuration: clampNum('work-duration', 1, 90),
@@ -86,17 +116,11 @@ function readForm() {
     breakWindowMode: document.getElementById('break-window-mode').value,
     reminderWindowMode: document.getElementById('reminder-window-mode').value,
     offlineBehavior: document.querySelector('input[name="offline"]:checked')?.value || 'ask',
-    schedule: {
-      activeDays: activeDays.length ? activeDays : DEFAULT_SETTINGS.schedule.activeDays,
-      startTime: document.getElementById('schedule-start').value || '09:00',
-      endTime: document.getElementById('schedule-end').value || '18:00',
-      lunchStart: document.getElementById('lunch-start').value || '12:30',
-      lunchEnd: document.getElementById('lunch-end').value || '13:30'
-    },
-    durationSlots: [
-      { start: '09:00', end: '12:30', workDuration: clampNum('morning-focus', 1, 90) },
-      { start: '13:30', end: '18:00', workDuration: clampNum('afternoon-focus', 1, 90) }
-    ],
+    schedule,
+    durationSlots: CalmodoroSchedule.buildDurationSlots(schedule, [
+      { workDuration: clampNum('morning-focus', 1, 90) },
+      { workDuration: clampNum('afternoon-focus', 1, 90) }
+    ]),
     microReminders: {
       blink: {
         enabled: document.getElementById('reminder-blink').checked,
@@ -115,6 +139,13 @@ function readForm() {
 }
 
 async function saveSettings() {
+  const schedule = readScheduleFromForm();
+  const error = CalmodoroSchedule.validateSchedule(schedule);
+  if (error) {
+    showToast(error);
+    return;
+  }
+
   await chrome.storage.local.set({ settings: readForm() });
   try { await chrome.runtime.sendMessage({ action: 'settingsUpdated' }); } catch (_) { /* ignore */ }
   showToast('✓ Settings saved');

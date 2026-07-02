@@ -60,10 +60,15 @@ async function poll() {
 }
 
 async function loadAndRender() {
-  const state = await sendMsg({ action: 'getState' });
-  renderState(state);
   const data = await chrome.storage.local.get('settings');
-  document.getElementById('dnd-toggle').checked = mergeSettings(data.settings).doNotDisturb;
+  const settings = mergeSettings(data.settings);
+  document.getElementById('dnd-toggle').checked = settings.doNotDisturb;
+
+  let state = await sendMsg({ action: 'getState' });
+  if (state.state === 'idle' && state.scheduleActive && settings.autoStartWork) {
+    state = await sendMsg({ action: 'start' });
+  }
+  renderState(state);
 }
 
 function renderState(state) {

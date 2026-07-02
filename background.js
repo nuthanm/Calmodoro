@@ -25,10 +25,14 @@ let recoveryHandled = false;
 // Startup & alarms
 // ---------------------------------------------------------------------------
 
-chrome.runtime.onStartup.addListener(() => { recoverFromOffline(); });
+chrome.runtime.onStartup.addListener(() => {
+  recoverFromOffline();
+  maybeAutoStartFocus();
+});
 chrome.runtime.onInstalled.addListener(() => {
   recoverFromOffline();
   rescheduleMicroReminders();
+  maybeAutoStartFocus();
 });
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
@@ -39,6 +43,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     await scheduleNextBadgeTick();
   } else if (alarm.name === ALARM_SCHEDULE_CHECK) {
     await rescheduleMicroReminders();
+    await maybeAutoStartFocus();
     chrome.alarms.create(ALARM_SCHEDULE_CHECK, { delayInMinutes: 30 });
   } else if (alarm.name.startsWith('reminder_')) {
     const kind = alarm.name.replace('reminder_', '');
@@ -48,6 +53,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
 recoverFromOffline();
 rescheduleMicroReminders();
+maybeAutoStartFocus();
 chrome.alarms.create(ALARM_SCHEDULE_CHECK, { delayInMinutes: 30 });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -198,8 +204,20 @@ async function onSettingsUpdated() {
   const { state } = await chrome.storage.local.get('state');
   if (state === 'idle') {
     await chrome.storage.local.set({ remainingMs: null });
+    await maybeAutoStartFocus();
   }
   return getTimerState();
+}
+
+async function maybeAutoStartFocus() {
+  const settings = await getSettings();
+  if (!settings.autoStartWork) return;
+
+  const { state } = await chrome.storage.local.get('state');
+  if (state !== 'idle') return;
+  if (!CalmodoroSchedule.isScheduleActive(settings)) return;
+
+  await startTimer();
 }
 
 async function clearSessionAlarms() {

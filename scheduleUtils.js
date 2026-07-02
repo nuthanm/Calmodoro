@@ -36,6 +36,54 @@ const CalmodoroSchedule = (() => {
     return isWithinActiveHours(settings, date) && !isLunchBlock(settings, date);
   }
 
+  function formatTimeLabel(timeStr) {
+    const [h, m] = (timeStr || '00:00').split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${String(m || 0).padStart(2, '0')} ${period}`;
+  }
+
+  function formatTimeRange(start, end) {
+    return `${formatTimeLabel(start)}–${formatTimeLabel(end)}`;
+  }
+
+  function buildDurationSlots(schedule, savedSlots) {
+    const startTime = schedule?.startTime || '09:00';
+    const endTime = schedule?.endTime || '18:00';
+    const lunchStart = schedule?.lunchStart || '12:30';
+    const lunchEnd = schedule?.lunchEnd || '13:30';
+    return [
+      {
+        start: startTime,
+        end: lunchStart,
+        workDuration: savedSlots?.[0]?.workDuration ?? 50
+      },
+      {
+        start: lunchEnd,
+        end: endTime,
+        workDuration: savedSlots?.[1]?.workDuration ?? 25
+      }
+    ];
+  }
+
+  function validateSchedule(schedule) {
+    const start = parseTime(schedule?.startTime || '09:00');
+    const end = parseTime(schedule?.endTime || '18:00');
+    const lunchStart = parseTime(schedule?.lunchStart || '12:30');
+    const lunchEnd = parseTime(schedule?.lunchEnd || '13:30');
+
+    if (start >= end) {
+      return 'End of day must be after start of day.';
+    }
+    if (lunchStart >= lunchEnd) {
+      return 'Lunch end must be after lunch start.';
+    }
+    if (lunchStart < start || lunchEnd > end) {
+      return 'Lunch block must fall within active hours.';
+    }
+    return null;
+  }
+
   function getWorkDuration(settings, date = new Date()) {
     const now = minutesNow(date);
     const slots = settings.durationSlots || [];
@@ -65,6 +113,10 @@ const CalmodoroSchedule = (() => {
     isWithinActiveHours,
     isLunchBlock,
     isScheduleActive,
+    formatTimeLabel,
+    formatTimeRange,
+    buildDurationSlots,
+    validateSchedule,
     getWorkDuration,
     modeDurationMs
   };
