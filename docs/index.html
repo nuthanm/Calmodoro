@@ -146,11 +146,7 @@
         </button>
       </div>
       <div class="showcase-panel showcase-panel--popup" id="showcase-panel">
-        <img src="assets/01-popup-timer.png" alt="Calmodoro focus timer popup" class="active" data-index="0">
-        <img src="assets/02-break-triptych.png" alt="Calmodoro break triptych with hydrate, blink, and stretch panels" data-index="1">
-        <img src="assets/03-settings-schedule.png" alt="Calmodoro settings with active hours and durations" data-index="2">
-        <img src="assets/04-stats-tracking.png" alt="Calmodoro daily stats and activity log" data-index="3">
-        <img src="assets/05-toolbar-badge.png" alt="Calmodoro toolbar icon with live countdown badge" data-index="4">
+        <img id="showcase-img" src="assets/01-popup-timer.png" alt="Calmodoro focus timer popup">
       </div>
     </div>
   </div>
@@ -338,22 +334,30 @@
   }
 
   var panel = document.getElementById('showcase-panel');
+  var showcaseImg = document.getElementById('showcase-img');
   var tabs = document.querySelectorAll('.showcase-tab');
-  var imgs = document.querySelectorAll('.showcase-panel img');
+  var showcaseShots = [
+    { src: 'assets/01-popup-timer.png', alt: 'Calmodoro focus timer popup' },
+    { src: 'assets/02-break-triptych.png', alt: 'Calmodoro break triptych with hydrate, blink, and stretch panels' },
+    { src: 'assets/03-settings-schedule.png', alt: 'Calmodoro settings with active hours and durations' },
+    { src: 'assets/04-stats-tracking.png', alt: 'Calmodoro daily stats and activity log' },
+    { src: 'assets/05-toolbar-badge.png', alt: 'Calmodoro toolbar icon with live countdown badge' }
+  ];
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      var idx = tab.getAttribute('data-index');
+      var idx = Number(tab.getAttribute('data-index'));
       tabs.forEach(function (t) {
         t.classList.remove('active');
         t.setAttribute('aria-selected', 'false');
       });
       tab.classList.add('active');
       tab.setAttribute('aria-selected', 'true');
-      imgs.forEach(function (img) {
-        img.classList.toggle('active', img.getAttribute('data-index') === idx);
-      });
+      if (showcaseImg && showcaseShots[idx]) {
+        showcaseImg.src = showcaseShots[idx].src;
+        showcaseImg.alt = showcaseShots[idx].alt;
+      }
       if (panel) {
-        panel.classList.toggle('showcase-panel--popup', idx === '0' || idx === '4');
+        panel.classList.toggle('showcase-panel--popup', idx === 0 || idx === 4);
       }
     });
   });
