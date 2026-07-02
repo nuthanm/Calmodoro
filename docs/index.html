@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calmodoro — Calm Pomodoro Timer for Chrome</title>
+<meta name="description" content="Structured focus sessions, wellness break rituals, micro-reminders, and a live toolbar countdown. All data stays on your device.">
+<meta name="theme-color" content="#E07A5F">
+<link rel="icon" href="assets/icon128.png" type="image/png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="site-logo" href="index.html">
+      <img src="assets/icon128.png" alt="Calmodoro" width="36" height="36">
+      <span class="site-logo-text">
+        <span class="accent">Calm</span>odoro
+        <span class="sub">Pomodoro Timer for Chrome</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#showcase">Screenshots</a></li>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+    </ul>
+    <a class="btn-chrome" id="nav-chrome-btn" href="#install">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5"/></svg>
+      Add to Chrome
+    </a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="pulse"></span> Local-only · Manifest V3 · v2.0.2</div>
+      <h1><span class="accent">Calm</span>odoro<br>Pomodoro Timer</h1>
+      <p class="hero-lead">Structured focus sessions, wellness break rituals (hydrate · blink · stretch), independent micro-reminders, and a live countdown on the toolbar icon — all stored on your device.</p>
+      <div class="hero-cta">
+        <a class="btn-chrome" id="hero-chrome-btn" href="#install">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5"/></svg>
+          Add to Chrome — Free
+        </a>
+        <a class="btn-secondary" href="https://github.com/nuthanm/Calmodoro">View on GitHub</a>
+      </div>
+      <div class="hero-meta">
+        <span>✓ Chrome 88+</span>
+        <span>✓ Edge · Brave · Opera</span>
+        <span>✓ MIT License</span>
+      </div>
+      <div class="badge-demo" aria-hidden="true">
+        <div class="badge-pill focus"><span>Focus</span><span class="time">18:42</span></div>
+        <div class="badge-pill break"><span>Break</span><span class="time">04:32</span></div>
+        <div class="badge-pill paused"><span>Paused</span><span class="time">⏸</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-shot-wrap">
+        <img class="hero-shot" src="assets/01-popup-timer.png" alt="Calmodoro popup showing focus timer with start, pause, and reset controls" width="380" height="600">
+      </div>
+      <div class="hero-float">
+        <span class="dot"></span>
+        Focus running · 18:42 on icon
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section section-alt" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Focus with gentle wellness rituals</h2>
+      <p>Pomodoro discipline without noisy interruptions — original animations, schedule-aware timers, and habits you can actually track.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon coral">⏱</div>
+        <h3>Live icon badge</h3>
+        <p>Close the popup and keep working. The remaining time updates every second on the toolbar icon.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon sage">🌿</div>
+        <h3>Break triptych</h3>
+        <p>Three-panel ritual: hydrate, rest eyes (20-20-20), and stretch — with original CSS/SVG animations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon sky">💧</div>
+        <h3>Micro-reminders</h3>
+        <p>Independent eye, water, and stretch intervals during active hours — toast or notification.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon amber">📅</div>
+        <h3>Active schedule</h3>
+        <p>Work days, start/end times, lunch block, and morning vs afternoon focus durations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon coral">📊</div>
+        <h3>Habit tracking</h3>
+        <p>Daily stats for sessions completed, breaks taken, skipped, and missed — plus reminder acknowledgments.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon sage">🔒</div>
+        <h3>Privacy first</h3>
+        <p>All data in chrome.storage.local. No accounts, no analytics, no remote code. Open source MIT.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase -->
+<section class="section" id="showcase">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>See it in action</h2>
+      <p>Real extension UI — popup, break ritual, settings, stats, and toolbar badge exactly as they appear in Chrome.</p>
+    </div>
+    <div class="showcase">
+      <div class="showcase-tabs" role="tablist">
+        <button class="showcase-tab active" role="tab" data-index="0" aria-selected="true">
+          <span class="showcase-tab-num">1</span>
+          <span class="showcase-tab-text"><strong>Focus popup</strong><span>Timer &amp; controls</span></span>
+        </button>
+        <button class="showcase-tab" role="tab" data-index="1">
+          <span class="showcase-tab-num">2</span>
+          <span class="showcase-tab-text"><strong>Break triptych</strong><span>Hydrate · blink · stretch</span></span>
+        </button>
+        <button class="showcase-tab" role="tab" data-index="2">
+          <span class="showcase-tab-num">3</span>
+          <span class="showcase-tab-text"><strong>Settings</strong><span>Schedule &amp; durations</span></span>
+        </button>
+        <button class="showcase-tab" role="tab" data-index="3">
+          <span class="showcase-tab-num">4</span>
+          <span class="showcase-tab-text"><strong>Stats</strong><span>Daily progress log</span></span>
+        </button>
+        <button class="showcase-tab" role="tab" data-index="4">
+          <span class="showcase-tab-num">5</span>
+          <span class="showcase-tab-text"><strong>Toolbar badge</strong><span>Live countdown</span></span>
+        </button>
+      </div>
+      <div class="showcase-panel showcase-panel--popup" id="showcase-panel">
+        <img src="assets/01-popup-timer.png" alt="Calmodoro focus timer popup" class="active" data-index="0">
+        <img src="assets/02-break-triptych.png" alt="Calmodoro break triptych with hydrate, blink, and stretch panels" data-index="1">
+        <img src="assets/03-settings-schedule.png" alt="Calmodoro settings with active hours and durations" data-index="2">
+        <img src="assets/04-stats-tracking.png" alt="Calmodoro daily stats and activity log" data-index="3">
+        <img src="assets/05-toolbar-badge.png" alt="Calmodoro toolbar icon with live countdown badge" data-index="4">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section section-alt" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Up and running in minutes</h2>
+      <p>Four steps from install to your first focused work session.</p>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <h3>Install the extension</h3>
+        <p>Add Calmodoro from the Chrome Web Store or load unpacked from GitHub for development.</p>
+      </div>
+      <div class="step-card">
+        <h3>Pin &amp; configure</h3>
+        <p>Pin the icon to your toolbar. Open Settings to set active hours, durations, and reminder intervals.</p>
+      </div>
+      <div class="step-card">
+        <h3>Start focus</h3>
+        <p>Click Start Focus and close the popup. Watch the badge count down on the icon while you work.</p>
+      </div>
+      <div class="step-card">
+        <h3>Take wellness breaks</h3>
+        <p>When a session ends, accept the break triptych or skip — stats track your habits over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Why Calmodoro?</h2>
+      <p>Most Pomodoro timers stop when you close the popup. Calmodoro keeps running — with wellness built in.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Capability</th><th>Typical timers</th><th>Calmodoro</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Runs with popup closed</td><td class="no">Often stops</td><td class="yes">Background + live badge</td></tr>
+        <tr><td>Wellness break rituals</td><td class="no">Generic notification</td><td class="yes">Triptych + micro-reminders</td></tr>
+        <tr><td>Schedule-aware</td><td class="no">Always on</td><td class="yes">Active hours + lunch block</td></tr>
+        <tr><td>Skip &amp; miss tracking</td><td class="no">—</td><td class="yes">Daily stats log</td></tr>
+        <tr><td>Data leaves device</td><td class="yes">Often yes</td><td class="no">100% local storage</td></tr>
+      </tbody>
+    </table>
+    <div class="disclaimer-bar">
+      <strong>Original artwork throughout.</strong>
+      Calmodoro uses original CSS/SVG character animations — no stock clipart. See ATTRIBUTIONS in the GitHub repository for license details.
+    </div>
+  </div>
+</section>
+
+<!-- Reviews / Store info -->
+<section class="section section-alt" id="reviews">
+  <div class="section-inner">
+    <div class="store-panel">
+      <div>
+        <h2>Chrome Web Store</h2>
+        <p>Calmodoro is built for the Chrome Web Store. Ratings and reviews will appear here once the extension is published and users start sharing feedback.</p>
+        <a class="btn-chrome" id="store-chrome-btn" href="#install">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5"/></svg>
+          Add to Chrome
+        </a>
+        <div class="store-stats">
+          <div class="store-stat"><strong id="stat-version">2.0.2</strong><span>Version</span></div>
+          <div class="store-stat"><strong>Free</strong><span>Price</span></div>
+          <div class="store-stat"><strong>EN</strong><span>Language</span></div>
+        </div>
+      </div>
+      <div class="rating-box" id="rating-box">
+        <div class="rating-stars" aria-label="Rating placeholder">
+          <span class="empty">★</span><span class="empty">★</span><span class="empty">★</span><span class="empty">★</span><span class="empty">★</span>
+        </div>
+        <div class="rating-score" id="rating-score">—</div>
+        <div class="rating-label" id="rating-label">No reviews yet</div>
+        <p class="rating-placeholder" id="rating-placeholder">Be among the first to review Calmodoro on the Chrome Web Store after launch. We'll update this section with live ratings and featured reviews.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Install -->
+<section class="section" id="install">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Get Calmodoro</h2>
+      <p id="install-lead">Install from the Chrome Web Store, or load unpacked for development.</p>
+    </div>
+    <div class="feature-grid" style="grid-template-columns:1fr 1fr">
+      <div class="feature-card" id="install-store-card">
+        <div class="feature-icon sky">🌐</div>
+        <h3>Chrome Web Store</h3>
+        <p id="install-store-text">The recommended way to install. One click, automatic updates, and verified by Google.</p>
+        <a class="btn-chrome" id="install-chrome-btn" href="#" style="margin-top:16px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5"/></svg>
+          Add to Chrome
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon coral">⚙</div>
+        <h3>Developer install</h3>
+        <p>Clone the repo, open <code>chrome://extensions</code>, enable Developer mode, and click <strong>Load unpacked</strong>. Select the Calmodoro root folder.</p>
+        <a class="btn-secondary" href="https://github.com/nuthanm/Calmodoro" style="margin-top:16px">Clone from GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="site-logo-text"><span class="accent">Calm</span>odoro</div>
+      <p>Calm Pomodoro timer with wellness break rituals and live toolbar countdown. Open source under MIT License.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#showcase">Screenshots</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#install">Install</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal &amp; Support</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+        <li><a href="https://github.com/nuthanm/Calmodoro/issues">Report an issue</a></li>
+        <li><a href="https://github.com/nuthanm/Calmodoro">GitHub Repository</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Calmodoro Contributors · Manifest V3 · Data stays on your device</span>
+    <span>Open source · MIT License</span>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  var cfg = window.CALMODORO_CONFIG || {};
+  var storeUrl = cfg.CHROME_WEB_STORE_URL;
+  var chromeBtns = document.querySelectorAll('.btn-chrome[id$="-chrome-btn"], #nav-chrome-btn');
+
+  if (storeUrl) {
+    chromeBtns.forEach(function (btn) {
+      btn.href = storeUrl;
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+    });
+    document.getElementById('install-lead').textContent =
+      'Install from the Chrome Web Store with one click.';
+    document.getElementById('install-store-text').textContent =
+      'The recommended way to install. One click, automatic updates, and verified by Google.';
+  } else {
+    chromeBtns.forEach(function (btn) {
+      btn.href = '#install';
+      btn.classList.add('coming-soon');
+    });
+    document.getElementById('install-lead').textContent =
+      'Coming soon to the Chrome Web Store. Use developer install below in the meantime.';
+    document.getElementById('install-store-text').textContent =
+      'Calmodoro is being submitted to the Chrome Web Store. Check back soon, or install from GitHub now.';
+    var installBtn = document.getElementById('install-chrome-btn');
+    if (installBtn) {
+      installBtn.textContent = 'Coming to Chrome Web Store';
+      installBtn.classList.add('disabled');
+      installBtn.removeAttribute('href');
+    }
+  }
+
+  if (cfg.VERSION) {
+    var ver = document.getElementById('stat-version');
+    if (ver) ver.textContent = cfg.VERSION;
+  }
+
+  var panel = document.getElementById('showcase-panel');
+  var tabs = document.querySelectorAll('.showcase-tab');
+  var imgs = document.querySelectorAll('.showcase-panel img');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var idx = tab.getAttribute('data-index');
+      tabs.forEach(function (t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      imgs.forEach(function (img) {
+        img.classList.toggle('active', img.getAttribute('data-index') === idx);
+      });
+      if (panel) {
+        panel.classList.toggle('showcase-panel--popup', idx === '0' || idx === '4');
+      }
+    });
+  });
+
+  if (cfg.STORE_RATING) {
+    var r = cfg.STORE_RATING;
+    document.getElementById('rating-score').textContent = r.score.toFixed(1);
+    document.getElementById('rating-label').textContent = r.count + ' review' + (r.count !== 1 ? 's' : '');
+    document.getElementById('rating-placeholder').textContent = '';
+    var stars = document.querySelector('.rating-stars');
+    var filled = Math.round(r.score);
+    stars.innerHTML = '';
+    for (var i = 1; i <= 5; i++) {
+      var s = document.createElement('span');
+      s.textContent = '★';
+      if (i > filled) s.className = 'empty';
+      stars.appendChild(s);
+    }
+  }
+})();
+</script>
+</body>
+</html>
