@@ -10,6 +10,7 @@ chrome.runtime.onMessage.addListener((message) => {
 
 function startTicker() {
   if (intervalId) return;
+  // Kick once immediately, then every second. `tick()` is resilient to missing APIs.
   tick();
   intervalId = setInterval(tick, 1000);
 }
@@ -22,7 +23,24 @@ function stopTicker() {
 }
 
 async function tick() {
-  const { state, endTime, mode = 'work' } = await chrome.storage.local.get(['state', 'endTime', 'mode']);
+  let state;
+  let endTime;
+  let mode = 'work';
+
+  try {
+    // Use the service worker as the canonical state source.
+    // This avoids runtime differences where OFFSCREEN_DOCUMENT may not expose `chrome.storage`.
+    const resp = await chrome.runtime.sendMessage({ action: 'getState' }).catch(() => null);
+    if (resp && typeof resp === 'object') {
+      state = resp.state;
+      endTime = resp.endTime;
+      mode = resp.mode || mode;
+    }
+  } catch (err) {
+    console.warn('Offscreen tick failed; stopping ticker.', err);
+    stopTicker();
+    return;
+  }
 
   if (state !== 'running' && state !== 'break') {
     stopTicker();
@@ -36,11 +54,8 @@ async function tick() {
     return;
   }
 
-  const colors = CalmodoroSettings.MODE_COLORS;
-  chrome.action.setBadgeText({ text: CalmodoroTimerUtils.formatBadgeCountdown(remaining) });
-  chrome.action.setBadgeBackgroundColor({
-    color: state === 'break' ? colors.shortBreak : colors[mode] || colors.work
-  });
+  // OFFSCREEN_DOCUMENT may not expose `chrome.action`; delegate badge updates to the service worker.
+  chrome.runtime.sendMessage({ action: 'badgeTick' }).catch(() => {});
 }
 
 // Start immediately when the offscreen document is created during an active timer.

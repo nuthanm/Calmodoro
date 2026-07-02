@@ -74,14 +74,13 @@ async function loadAndRender() {
 function renderState(state) {
   if (!state || state.error) return;
 
-  const { mode, remainingMs, sessionCount, settings = {}, state: timerState, stats = {}, scheduleActive } = state;
+  const { mode, remainingMs, sessionCount, settings = {}, state: timerState, stats = {}, scheduleActive, scheduleStatus, pausedBySchedule } = state;
   const totalMs = modeTotalMs(mode, settings);
 
   applyModeTheme(mode);
 
-  const mm = String(Math.floor(remainingMs / 60000)).padStart(2, '0');
-  const ss = String(Math.floor((remainingMs % 60000) / 1000)).padStart(2, '0');
-  document.getElementById('timer-display').textContent = `${mm}:${ss}`;
+  document.getElementById('timer-display').textContent =
+    CalmodoroTimerUtils.formatCountdown(remainingMs, { padMinutes: true });
   document.getElementById('timer-label').textContent = MODE_LABELS[mode] || 'Focus';
 
   const progress = totalMs > 0 ? 1 - remainingMs / totalMs : 0;
@@ -103,6 +102,14 @@ function renderState(state) {
     startBtn.textContent = mode === 'work' ? 'Start Focus' : 'Start Break';
   }
 
+  // If schedule is inactive, actions like start/resume are intentionally blocked.
+  // Make that visible to the user and avoid "dead clicks".
+  const scheduleInactive = scheduleActive === false;
+  const actionWouldBeBlocked =
+    scheduleInactive && (timerState === 'idle' || timerState === 'paused' || timerState === 'break_pending' || timerState === 'recovery_pending');
+  startBtn.disabled = actionWouldBeBlocked;
+  startBtn.title = actionWouldBeBlocked ? 'Paused by schedule' : '';
+
   const dotsEl = document.getElementById('session-dots');
   const total = settings.sessionsBeforeLongBreak || 4;
   const done = sessionCount % total;
@@ -119,7 +126,21 @@ function renderState(state) {
     (stats.breaksSkipped || 0) + (stats.remindersSkipped || 0);
   document.getElementById('stat-eyes').textContent = stats.reminderBlink || 0;
 
-  document.getElementById('schedule-banner').classList.toggle('hidden', scheduleActive !== false);
+  const bannerEl = document.getElementById('schedule-banner');
+  const bannerMsg = document.getElementById('schedule-banner-msg');
+  const bannerMeta = document.getElementById('schedule-banner-meta');
+
+  const showBanner = scheduleActive === false;
+  bannerEl.classList.toggle('hidden', !showBanner);
+  if (showBanner) {
+    const msg = scheduleStatus?.message || (pausedBySchedule ? 'Timer paused by schedule.' : 'Schedule is inactive.');
+    bannerMsg.textContent = msg;
+    const activeHours = scheduleStatus?.activeHoursLabel;
+    bannerMeta.textContent = activeHours ? `Active hours: ${activeHours}` : '';
+  } else {
+    bannerMsg.textContent = '';
+    bannerMeta.textContent = '';
+  }
 }
 
 function applyModeTheme(mode) {

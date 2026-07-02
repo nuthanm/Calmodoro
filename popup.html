@@ -31,8 +31,18 @@
       </div>
     </header>
 
-    <div class="schedule-banner hidden" id="schedule-banner">
-      Outside active hours — timer paused until schedule resumes.
+    <div class="schedule-banner hidden" id="schedule-banner" role="status" aria-live="polite">
+      <span class="schedule-banner__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+      </span>
+      <span class="schedule-banner__text">
+        <span class="schedule-banner__msg" id="schedule-banner-msg">Timer paused by schedule.</span>
+        <span class="schedule-banner__meta" id="schedule-banner-meta"></span>
+      </span>
     </div>
 
     <nav class="mode-tabs" role="tablist">

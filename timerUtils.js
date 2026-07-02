@@ -1,14 +1,21 @@
-const BADGE_COMPACT_THRESHOLD_MINUTES = 10;
+function splitRemaining(remainingMs) {
+  const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return { minutes, seconds };
+}
+
+function formatCountdown(remainingMs, { padMinutes = false } = {}) {
+  const { minutes, seconds } = splitRemaining(remainingMs);
+  const mm = padMinutes ? String(minutes).padStart(2, '0') : String(minutes);
+  return `${mm}:${String(seconds).padStart(2, '0')}`;
+}
 
 function formatBadgeCountdown(remainingMs) {
-  const minutes = Math.floor(remainingMs / 60000);
-  const seconds = Math.floor((remainingMs % 60000) / 1000);
-  if (minutes >= BADGE_COMPACT_THRESHOLD_MINUTES) {
-    return `${minutes}m`;
-  }
-  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+  return formatCountdown(remainingMs, { padMinutes: false });
 }
 
 globalThis.CalmodoroTimerUtils = Object.freeze({
+  formatCountdown,
   formatBadgeCountdown
 });

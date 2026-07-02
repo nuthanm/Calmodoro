@@ -85,6 +85,20 @@ You can keep working in any tab and glance at the icon to see time left — no n
 3. Watch the **badge on the icon** count down each second
 4. When the session ends, the break window opens (unless DND is on)
 
+### Testing observations / known issues (living doc)
+
+While testing, we log observations, issues, and the recommended fixes/verification steps in:
+
+- [TESTING_OBSERVATIONS.md](./TESTING_OBSERVATIONS.md)
+
+**Process rule**: Whenever you find a new issue or noteworthy behavior during testing, **append it to `TESTING_OBSERVATIONS.md`** (do not overwrite old entries).
+
+### Project study guide (architecture & self-service fixes)
+
+For full tech stack, data storage, persistence across restarts, flowcharts, and where to edit code without AI:
+
+- [docs/CALMODORO_STUDY_GUIDE.md](./docs/CALMODORO_STUDY_GUIDE.md)
+
 ### Reload after code changes
 
 - Click **Reload** on the extension card at `chrome://extensions`

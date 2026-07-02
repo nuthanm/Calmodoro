@@ -10,6 +10,13 @@ const CalmodoroSchedule = (() => {
     return date.getHours() * 60 + date.getMinutes();
   }
 
+  function dateAtLocalTime(baseDate, timeStr) {
+    const [h, m] = (timeStr || '00:00').split(':').map(Number);
+    const d = new Date(baseDate);
+    d.setHours(h || 0, m || 0, 0, 0);
+    return d;
+  }
+
   function isActiveDay(settings, date = new Date()) {
     const days = settings.schedule?.activeDays;
     if (!days || !days.length) return true;
@@ -34,6 +41,101 @@ const CalmodoroSchedule = (() => {
 
   function isScheduleActive(settings, date = new Date()) {
     return isWithinActiveHours(settings, date) && !isLunchBlock(settings, date);
+  }
+
+  function nextActiveStartDate(settings, date = new Date()) {
+    const days = settings.schedule?.activeDays;
+    const startTime = settings.schedule?.startTime || '00:00';
+    const base = new Date(date);
+    base.setSeconds(0, 0);
+
+    // If no active-days restriction, "next start" is today at startTime
+    // (or tomorrow if already past startTime today).
+    if (!days || !days.length) {
+      const todayStart = dateAtLocalTime(base, startTime);
+      if (todayStart > base) return todayStart;
+      const tomorrow = new Date(base);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return dateAtLocalTime(tomorrow, startTime);
+    }
+
+    for (let i = 0; i < 8; i++) {
+      const candidate = new Date(base);
+      candidate.setDate(candidate.getDate() + i);
+      if (!days.includes(candidate.getDay())) continue;
+      const candidateStart = dateAtLocalTime(candidate, startTime);
+      if (candidateStart > base) return candidateStart;
+    }
+    const fallback = new Date(base);
+    fallback.setDate(fallback.getDate() + 1);
+    return dateAtLocalTime(fallback, startTime);
+  }
+
+  function getScheduleStatus(settings, date = new Date()) {
+    const schedule = settings.schedule || {};
+    const startTime = schedule.startTime || '00:00';
+    const endTime = schedule.endTime || '23:59';
+    const lunchStart = schedule.lunchStart;
+    const lunchEnd = schedule.lunchEnd;
+
+    const activeHoursLabel = formatTimeRange(startTime, endTime);
+
+    if (!isActiveDay(settings, date)) {
+      const resumeAt = nextActiveStartDate(settings, date);
+      return {
+        active: false,
+        reason: 'inactive_day',
+        activeHoursLabel,
+        resumeAtMs: resumeAt.getTime(),
+        message: `Not scheduled today. Resumes ${resumeAt.toLocaleDateString(undefined, { weekday: 'short' })} at ${formatTimeLabel(startTime)}.`
+      };
+    }
+
+    if (isLunchBlock(settings, date)) {
+      const resumeLabel = lunchEnd ? formatTimeLabel(lunchEnd) : null;
+      const resumeAt = lunchEnd ? dateAtLocalTime(date, lunchEnd) : null;
+      return {
+        active: false,
+        reason: 'lunch',
+        activeHoursLabel,
+        resumeAtMs: resumeAt ? resumeAt.getTime() : null,
+        message: resumeLabel
+          ? `Lunch break — timer paused until ${resumeLabel}.`
+          : 'Lunch break — timer paused.'
+      };
+    }
+
+    const now = minutesNow(date);
+    const startMin = parseTime(startTime);
+    const endMin = parseTime(endTime);
+    if (now < startMin) {
+      const resumeAt = dateAtLocalTime(date, startTime);
+      return {
+        active: false,
+        reason: 'before_start',
+        activeHoursLabel,
+        resumeAtMs: resumeAt.getTime(),
+        message: `Outside active hours — starts at ${formatTimeLabel(startTime)}.`
+      };
+    }
+    if (now >= endMin) {
+      const resumeAt = nextActiveStartDate(settings, date);
+      return {
+        active: false,
+        reason: 'after_end',
+        activeHoursLabel,
+        resumeAtMs: resumeAt.getTime(),
+        message: `Outside active hours — resumes ${resumeAt.toLocaleDateString(undefined, { weekday: 'short' })} at ${formatTimeLabel(startTime)}.`
+      };
+    }
+
+    return {
+      active: true,
+      reason: 'active',
+      activeHoursLabel,
+      resumeAtMs: null,
+      message: ''
+    };
   }
 
   function formatTimeLabel(timeStr) {
@@ -113,6 +215,7 @@ const CalmodoroSchedule = (() => {
     isWithinActiveHours,
     isLunchBlock,
     isScheduleActive,
+    getScheduleStatus,
     formatTimeLabel,
     formatTimeRange,
     buildDurationSlots,
